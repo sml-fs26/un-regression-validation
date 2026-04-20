@@ -1,0 +1,12 @@
+--- implementer step 2 (log: /Users/carloscotrini/Documents/git_sml/un-regression-validation/.stage2/logs/step-2-impl.log) ---
+Step 2 complete. Summary for the orchestrator:
+
+- **Built:** `<HeartbeatTicker>` (324 LOC) + `<HatMatrixTooltip>` (117 LOC) + `<HeartbeatPulse>` (81 LOC, the first of three `@keyframes`-allowlisted files)
+- **Stores:** `sessionStore`, `uiStore`, `dataStore` — typed contracts for `currentChapter`, `activeISO3`, `scrubP`, `hatMatrixTooltipOpen`, and the h_ii trajectory loader with invariant-enforcing parser
+- **Fixtures:** `static/data/nor/h_ii_trajectory.json` (203 rows, monotonic, p=10→0.04, p=212→0.9812) + URY for recast
+- **Storybook:** 8 stories (CH1 first-paint / scrolled / endpoint / endpoint-2x / reduced-motion / mobile / recast / hat-matrix-open) — built to `storybook-static/`
+- **Playwright:** 22 tests across 3 viewport projects (1×, 2×, 480px), 10 committed snapshot baselines, webServer backed by a 40-line zero-dep Node static server
+- **New lint rules:** `no-keyframes` (3-file allowlist) + `no-css-animation-over-200ms`, both wired in `.stylelintrc.cjs` and exercised by `tests/lint-rules.test.ts`
+- **DEV-mode motion watcher** (`MutationObserver` on `document.body`) loaded via dynamic import gated on `import.meta.env.DEV`
+- **Gates green:** `npm run build` / `npm run test` (25/25) / `npm run lint` (0 errors, 0 warnings) / `npx playwright test` (22/22)
+- **Report:** `.stage2/STAGE2-STEP-2-REPORT.md` maps every DESIGN.md §CC#1 acceptance criterion to the Playwright test that verifies it

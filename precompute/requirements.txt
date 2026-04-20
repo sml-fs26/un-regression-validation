@@ -1,0 +1,19 @@
+# precompute/requirements.txt — pinned deps for the offline Python pipeline
+#
+# DESIGN.md §Data pipeline, line 30:
+#   "All quantitative content is precomputed by an offline Python pipeline
+#    (/precompute/, separate from the site repo). The site reads only
+#    static JSON."
+#
+# Pinned to versions known to be present on the current workstation
+# (python 3.11, sklearn 1.8). The pipeline does not depend on pandas
+# for any end-to-end step; numpy + sklearn + stdlib are sufficient.
+#
+# If a reviewer wants to reproduce the pipeline on a clean machine:
+#   python3 -m venv .venv
+#   source .venv/bin/activate
+#   pip install -r precompute/requirements.txt
+#   make -C precompute all
+
+numpy==1.26.4
+scikit-learn==1.8.0

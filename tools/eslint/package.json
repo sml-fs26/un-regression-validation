@@ -1,0 +1,8 @@
+{
+  "name": "eslint-plugin-un-regression",
+  "version": "0.0.1",
+  "private": true,
+  "type": "commonjs",
+  "main": "index.js",
+  "description": "Project-local ESLint rules for un-regression-validation (DA #1 enforcement)."
+}

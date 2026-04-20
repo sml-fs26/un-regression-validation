@@ -1,0 +1,66 @@
+/*
+ * tokens.css — the complete CSS-variable rationing system.
+ *
+ * Source of truth: DESIGN.md §Typography system (lines 115-136) and
+ * DESIGN.md §Color & palette (lines 177-198). Any variable not named
+ * here does not exist in the site.
+ *
+ * The `no-raw-font-family` Stylelint rule rejects any `font-family`
+ * declaration that is not one of the three families below, and the
+ * `no-forbidden-motion-libraries` ESLint rule rejects importing any
+ * JavaScript motion library (DA #1).
+ */
+
+:root {
+  /* ------------------------------------------------------------------
+   * Font families (DESIGN.md §Typography system, lines 117-120)
+   * ------------------------------------------------------------------ */
+  --font-mono:  'JetBrains Mono', ui-monospace, monospace;
+  --font-serif: 'DM Serif Display', Georgia, serif;
+  --font-sans:  'Inter', system-ui, sans-serif; /* fallback ONLY; no role uses it directly */
+
+  /* ------------------------------------------------------------------
+   * Type roles — every cell on the site picks exactly one.
+   * DESIGN.md §Typography system, lines 122-131.
+   * ------------------------------------------------------------------ */
+  --type-model:      500 11px/1.35 var(--font-mono);         /* β̂ row, "model's voice" */
+  --type-data:       400 11px/1.35 var(--font-mono);         /* CSV cell values */
+  --type-annot:      400 9px/1.3   var(--font-mono);         /* annotations, brackets, comments */
+  --type-subannot:   400 7px/1.25  var(--font-mono);         /* CH3 PI-cell line-2 (mono) */
+  --type-subcaption: 400 7px/1.25  var(--font-mono);         /* CH1 sub-caption beneath ticker — 7pt MONO per BRAINSTORM CH1 wow #1 */
+  --type-head:       400 14px/1.2  var(--font-serif);        /* CSV column headers, small-caps */
+  --type-voice32:    400 italic 32px/1.15 var(--font-serif); /* chapter interjections — CH3 + CH5 */
+  --type-voice48:    400 italic 48px/1.1  var(--font-serif); /* closing aphorism — used exactly once */
+  --type-voice14:    400 italic 14px/1.3  var(--font-serif); /* CH2 sole italic line — exception sized down */
+
+  /* Header treatment (DESIGN.md §Typography system, lines 134-135) */
+  --head-transform: small-caps;
+  --head-tracking:  0.04em;
+
+  /* ------------------------------------------------------------------
+   * Color & palette (DESIGN.md §Color & palette, lines 178-198)
+   * ------------------------------------------------------------------ */
+
+  /* Surface */
+  --bg-cream:    #F5F1E8;
+  --bg-indigo:   #1A1A2E;                  /* CSV gutter, off-screen scroll margins */
+  --rule-hair:   rgba(0, 0, 0, 0.08);
+
+  /* Heartbeat & symptom */
+  --gold:        #C9A961;
+  --gold-pulse:  #E6C77A;
+  --dashed-gray: #6E6E6E;                  /* mechanism (eigenvalue, null bands) */
+  --dashed-red:  #B23A3A;                  /* breached cell boundaries (CH2) */
+
+  /* Reader-authored role palette — STROKE-ONLY.
+   * Any fill with a --role-* value outside <PiCellLine2Underline>
+   * fails the Stylelint rule `role-color-stroke-only`. */
+  --role-causal:     #3F7A4E;  /* green */
+  --role-spurious:   #B23A3A;  /* red */
+  --role-incidental: #7A7A7A;  /* gray */
+  --role-unlabeled:  transparent; /* no stroke */
+
+  /* The single allowed exception to stroke-only; see
+   * src/lib/components/ch3/PiCellLine2Underline.svelte (CH3 only). */
+  --pi-cell-stroke-weight: 1px;
+}

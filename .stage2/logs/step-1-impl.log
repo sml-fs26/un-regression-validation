@@ -1,0 +1,20 @@
+--- implementer step 1 (log: /Users/carloscotrini/Documents/git_sml/un-regression-validation/.stage2/logs/step-1-impl.log) ---
+Step 1 complete. Summary:
+
+**Shipped:**
+- SvelteKit 2 + TypeScript strict + `adapter-static` project scaffold — zero motion libraries in dependencies.
+- `src/lib/styles/tokens.css` — the complete CSS-variable set from DESIGN.md §Typography system (lines 115-136) and §Color & palette (lines 177-198), value-for-value.
+- `src/lib/styles/typography.css` — utility class per type role.
+- `src/lib/dev/serifAudit.ts` (path verbatim per DESIGN.md line 139) — both runtime (getComputedStyle) and static-HTML counters.
+- Stylelint `no-raw-font-family` custom plugin (DESIGN.md line 113).
+- ESLint `un-regression/no-forbidden-motion-libraries` rule (DESIGN.md line 26).
+- `tools/forbidden-libraries-check.js` — package.json auditor for the same list.
+- Vitest `.assert-serif-budget` test: walks `build/`, counts italic-serif class occurrences, asserts against `tests/serif-budget.expected.json` (`totalBudget: 4`, per-chapter `{0,1,1,0,2}`).
+- `tests/lint-rules.test.ts` — positive+negative harness proving both custom lint rules actually reject violations.
+
+**Gauntlet results:**
+- `npm run build` → exit 0 (`build/index.html` + CSS with all tokens present)
+- `npm run test` → exit 0 (10/10 tests passing across 2 files)
+- `npm run lint` → exit 0 (ESLint + Stylelint + forbidden-libraries + svelte-check, 0 errors / 0 warnings)
+
+**Report:** `.stage2/STAGE2-STEP-1-REPORT.md` with the full claim list, deferrals cited to their governing DESIGN.md sections, and the reviewer notes.

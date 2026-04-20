@@ -1,0 +1,17 @@
+--- implementer step 4 (log: /Users/carloscotrini/Documents/git_sml/un-regression-validation/.stage2/logs/step-4-impl.log) ---
+API Error: Stream idle timeout - partial response received
+   · transient API failure (try 1/3): API Error: Stream idle timeout - partial response received
+--- retry 2/3 ---
+Step 4 complete. Summary:
+
+**Delivered:** the `<PiCellComposition>` prototype — the site's tightest typographic composition — at 1× / 2× / 480px, proven legible and ready to unblock step 5.
+
+- **3 Svelte components** under `src/lib/components/ch3/`: `PiCell` (two-layer 60px-box-sized body), `PiCellLine2Underline` (the one Stylelint-blessed exception that writes `border-bottom: 1px solid var(--role-X)` literally), `PiCellComposition` (horizontal twin + 45° dashed-gray stripe, stacked + rotated on mobile).
+- **TypeScript loader + parser** (`src/lib/stores/pi.ts`) for `nor/pi_decomposition.json` / `nor/pi_shuffled.json` with strict validation and `formatCiBracket()` helper.
+- **Fixtures + generator**: 3-step decomposition with cv-optimal bracket `[$78,400, $94,900]`, 5 terms matching the DESIGN.md line 633 equation, shuffled peer ≥78% red per BRAINSTORM CH3 wow #2.
+- **Storybook harness + 9 stories** covering default / reader-tagged / reader-overrides / extreme-min / extreme-max / reduced-motion / recast / mobile-strip / two-x-endpoint.
+- **Tests**: 22 Vitest tests (parser + fixture shape + stroke-only file-scope containment), 30 Playwright tests (1×: 20, 2×: 4, 480px: 6), 11 committed snapshot baselines.
+
+**Exit codes, all 0:** `npm run test:unit` (76/76), `npm run lint`, `npm run build`, `npm run test` (76/76), `npm run test:e2e` (75/75).
+
+**Deferred (with DESIGN.md citations):** α-scrub, strikethrough layer, ticker contraction, 32pt italic line, 9pt disclaimer, full 356-term pandemonium, end-to-end 300ms cross-component timer — all chapter-level and governed by §Stage 2 handoff line 936 (step 8).

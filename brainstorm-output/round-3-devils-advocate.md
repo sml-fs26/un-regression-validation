@@ -1,0 +1,12 @@
+## Round 3 · Cross-pollination · Devil's Advocate
+
+### AMPLIFY
+> Targeting Aesthete's "The Confession" (CH4) + Information Designer's "Confession Equation" (CH4)
+> Two agents independently arrived at the confession — typography as indictment, the model speaking its own coefficients. This is the only cross-agent convergence on a signature moment in the entire transcript, and it is the right one. Now make it **structural**, not a single scene. The confession begins at the *end of CH1* as a whisper — one line, `r = 0.78`, typed in mono at the bottom of the drawer. Returns in CH2 as the coefficient that just detached and streaked off-screen leaving a line of text behind. CH3: the confession is *interrupted* mid-sentence when Lasso zeros a feature — the line aborts with a strikethrough. CH4: the full confession as its current proposal, but now the reader has been hearing the model mutter to itself for four chapters. CH5: the confession reappears — and every line now has a bootstrap CI next to it that's **wider than the coefficient**. The model was never confident. It was only loud.
+
+### KILL
+> Targeting Pedagogue's "Correlation Cemetery" + "Prediction Graveyard" + "Graveyard Motif" (CH1, CH2, X-cut)
+> Three chapters of headstones. This is a costume, not a metaphor. The cemetery does not teach anything about correlation that the drawer, the shelf of silhouettes, or the ECDF overlay doesn't already teach — it just darkens the palette and adds Halloween. And it directly contradicts the "austere atlas, not kitsch" discipline the Aesthete has painstakingly built. Kill the cemetery. All three appearances. What belongs in that slot instead: a recurring motif that **accumulates information**, not mood. The marginalia track is already doing this work quietly. Promote it. Kill the headstones.
+
+### ESCALATE
+> Twelve ideas across Rounds 1–2 are built on **metaphor stacks** — tuning fork, guillotine, rope-pulling, brass scale, erosion profile, loom, rose window, card catalog, library shelves, piano keys, stereo knob, weighing scale. Every single one is a 19th-century physical instrument. The committee is writing an aesthetic pastiche of a world's-fair exhibition, not a statistics site. At least one chapter's visual grammar must come from **the 21st century and from this dataset specifically** — the shape of a country list, the structure of a World Bank CSV, the texture of a 356-column spreadsheet, the absurdity of an ISO country code. Stop reaching for brass. The dataset *is* the material. Use it.

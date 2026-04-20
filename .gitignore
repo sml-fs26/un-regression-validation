@@ -1,0 +1,14 @@
+node_modules
+/build
+/.svelte-kit
+/package-lock.json.backup
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+.DS_Store
+
+# Storybook + Playwright artifacts
+/storybook-static
+/playwright-report
+/test-results
+# Playwright snapshots are committed to the branch per DESIGN.md §Test
+# discipline, so do NOT ignore tests-e2e/**/__screenshots__/.

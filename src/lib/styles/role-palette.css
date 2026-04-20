@@ -1,0 +1,39 @@
+/*
+ * role-palette.css — reader-authored stroke-only palette utilities.
+ *
+ * DESIGN.md §Cross-cutting signature #5 (lines 291-299) and the
+ * "Stroke-only utility classes" block at §Color & palette lines
+ * 203-206 specify three classes:
+ *
+ *   .role-stroke              { border-bottom: 1px solid var(--stroke); }
+ *   .role-stroke--country-dot { outline: 1px solid var(--stroke); outline-offset: 1px; }
+ *   .role-stroke--bracket     { color: var(--stroke); }
+ *
+ * Each site-level consumer sets `--stroke` on the element to one of
+ * `var(--role-causal | --role-spurious | --role-incidental | --role-unlabeled)`.
+ * This indirection is what makes the role-color-stroke-only Stylelint
+ * rule enforceable: only a fixed list of files (tokens.css, this file,
+ * and the single CH3 exception PiCellLine2Underline.svelte) are
+ * permitted to reference `--role-*` directly. Every other consumer
+ * reaches the stroke through `--stroke`.
+ *
+ * DESIGN.md §CC#5 "The single permitted exception" (line 295):
+ *   "<PiCellLine2Underline> (CH3 only) renders border-bottom: 1px solid
+ *    var(--role-X) as the fill below text. The Stylelint plugin
+ *    role-color-stroke-only exempts only this file path."
+ */
+
+.role-stroke {
+  border-bottom: 1px solid var(--stroke);
+}
+
+.role-stroke--country-dot {
+  outline: 1px solid var(--stroke);
+  outline-offset: 1px;
+}
+
+.role-stroke--bracket {
+  /* The one place role-color enters a `color:` declaration outside the
+     CH3 exception. Used for hairline brackets in CH4/CH5. */
+  color: var(--stroke);
+}

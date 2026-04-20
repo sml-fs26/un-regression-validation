@@ -1,0 +1,26 @@
+--- implementer step 3 (log: /Users/carloscotrini/Documents/git_sml/un-regression-validation/.stage2/logs/step-3-impl.log) ---
+API Error: Stream idle timeout - partial response received
+--- implementer step 3 (log: /Users/carloscotrini/Documents/git_sml/un-regression-validation/.stage2/logs/step-3-impl.log) ---
+API Error: Stream idle timeout - partial response received
+   · transient API failure (try 1/3): API Error: Stream idle timeout - partial response received
+--- retry 2/3 ---
+Step 3 is complete. Summary:
+
+**Deliverables** (all traced to DESIGN.md §CC#3, lines 259–278, and DA #3/§DA #9):
+
+- `src/lib/components/RoleColumn.svelte` — pinned-left sticky column, 356-row invariant enforced at mount.
+- `src/lib/components/RoleCell.svelte` — per-feature cell; `[authored]` / `unlabeled` / `causal`/`spurious`/`incidental` render contracts; click-cycle + keyboard `1`/`2`/`3`; instant hover citation reveal on authored rows.
+- `src/lib/components/RoleLabeledCounter.svelte` — `labeled_by_you: N / 356` top-left counter bound to a derived store.
+- `src/lib/stores/roles.ts` — `rolesStore` + `initFromFeatures` + `tag` + `userLabeledCount`; no `revoke`/`undo`/`remove` exports; no forbidden-storage references.
+- `src/stories/RoleColumn.stories.ts` + `RoleColumnHarness.svelte` — 8 Storybook scenarios.
+- `tests/roles-store.test.ts` (18 tests) + `tests/role-subscription-latency.test.ts` (3 DA-#3 latency tests).
+- `tests-e2e/role-column.spec.ts` + `.2x.spec.ts` + `.mobile.spec.ts` with 10 committed Playwright snapshot baselines (1× / 2× / 480px).
+
+**Verification:**
+
+- `npm run test:unit` → exit 0, 54/54 passed.
+- `npm run lint` → exit 0 (ESLint + Stylelint + forbidden-libraries + `svelte-check` all clean).
+- `npm run build` → exit 0.
+- `npm run test:e2e` → exit 0, **45/45 Playwright tests passed** (26 new RoleColumn tests; Step 2's HeartbeatTicker regressions still green).
+
+All five DESIGN.md §CC#3 acceptance criteria and all three invariants are verified; DA #3's <300ms subscription-latency budget passes with headroom at 1000 synthetic subscribers. The report is at `.stage2/STAGE2-STEP-3-REPORT.md`.

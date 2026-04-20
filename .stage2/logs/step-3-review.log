@@ -1,0 +1,16 @@
+Review complete. All checks independently verified:
+
+- **DESIGN.md §CC#3 acceptance criteria 1–5** covered by passing Playwright tests `role-column.spec.ts` (tests at lines 95, 122, 135, 160, 191).
+- **Invariants** (356 cells, 30 authored, read-only authored, no undo) verified by `roles-store.test.ts` (18 tests pass) and Playwright invariant test at line 42.
+- **DA #3 (<300ms latency)** verified by `role-subscription-latency.test.ts` (1000 subscribers, 20-commit burst, derived counter all under budget).
+- **DA #9 (no persistence, no revoke)** verified structurally (no `revoke`/`undo`/`remove`/`unassign` in module exports, no `localStorage`/`indexedDB`/`document.cookie` in source), by ESLint rule `no-storage-persistence` wired in `.eslintrc.cjs`, and by Playwright `localStorage.length === 0` check at line 160.
+- **`npm run lint`** exits 0 (eslint + stylelint + forbidden-libs + svelte-check 0/0).
+- **`npm run build`** exits 0 with no warnings.
+- **`npm run test`** exits 0 — 54/54 unit tests.
+- **`npm run test:e2e`** 45/45 Playwright tests pass across 1×, 2×, and 480px.
+- **Scope**: only role-column-domain files added (components, store, stories, tests, fixture + generator); `.eslintrc.cjs` wires DA #9's rule, appropriate for this step per its role as the first reader-state surface.
+- **No animations/transitions** in any of the three components (grep confirmed only comments reference the words). 9pt JetBrains Mono typography on counter confirmed by Playwright.
+
+`.stage2/step-3.done` created.
+
+APPROVED.

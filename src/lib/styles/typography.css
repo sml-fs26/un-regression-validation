@@ -1,0 +1,33 @@
+/*
+ * typography.css — role utility classes.
+ *
+ * The only correct way for a site component to pick up a type role is
+ * to attach one of the `.type-*` classes below. Class names match the
+ * CSS-variable names in `tokens.css` so that a reviewer can trace any
+ * DOM element to its variable by substring match.
+ *
+ * The `.assert-serif-budget` Vitest test (tests/assert-serif-budget.test.ts)
+ * reads these class names directly: italic DM Serif occurrences are
+ * counted as elements carrying `.type-voice14`, `.type-voice32`, or
+ * `.type-voice48`. If a future maintainer coins a new italic-serif
+ * role, they must add it both to this file AND to the test's
+ * `ITALIC_SERIF_CLASSES` allowlist — or the cross-chapter total will
+ * no longer reflect reality.
+ */
+
+.type-model      { font: var(--type-model); }
+.type-data       { font: var(--type-data); }
+.type-annot      { font: var(--type-annot); }
+.type-subannot   { font: var(--type-subannot); }
+.type-subcaption { font: var(--type-subcaption); font-style: normal; }
+
+.type-head {
+  font: var(--type-head);
+  font-variant-caps: var(--head-transform);
+  letter-spacing: var(--head-tracking);
+  font-style: normal;
+}
+
+.type-voice14 { font: var(--type-voice14); }
+.type-voice32 { font: var(--type-voice32); }
+.type-voice48 { font: var(--type-voice48); }
