@@ -40,6 +40,20 @@
 
     <main id="main" hidden>
 
+      <!-- =============== Widget 0: Featured examples =============== -->
+      <section class="widget" id="featured-examples">
+        <h2>Featured examples</h2>
+        <p class="help">
+          A handful of picks from each role to anchor the intuition before the ranking chart.
+          The <strong style="color:#22c55e">causal</strong> column lists features with a
+          plausible mechanism for national wealth; the <strong style="color:#94a3b8">incidental</strong>
+          column lists statistics that move <em>with</em> wealth but don&rsquo;t cause it; the
+          <strong style="color:#ef4444">spurious</strong> column lists features whose absurdity
+          is the point.
+        </p>
+        <div id="featured-examples-host"></div>
+      </section>
+
       <!-- =============== Widget 1: Top Correlations =============== -->
       <section class="widget">
         <h2>Top correlations with log(GDP)</h2>
@@ -125,6 +139,7 @@
 
   <script type="module">
     import { loadData } from "../js/data.js";
+    import { mountFeaturedExamples } from "../js/featured-examples.js";
     import { renderTopCorrelations } from "../js/top-correlations.js";
     import { mountScatterExplorer } from "../js/scatter-explorer.js";
     import { mountQuiz } from "../js/quiz.js";
@@ -135,6 +150,7 @@
         document.getElementById("loading").hidden = true;
         document.getElementById("main").hidden = false;
 
+        mountFeaturedExamples(document.getElementById("featured-examples-host"), bundle);
         renderTopCorrelations(document.getElementById("top-correlations"), bundle, { topN: 30 });
         mountScatterExplorer(document.getElementById("scatter-explorer"), bundle);
         mountQuiz(document.getElementById("quiz"), bundle);
