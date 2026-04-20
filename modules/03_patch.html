@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>03 · The Patch — regularisation rescues prediction</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="https://cdn.plot.ly/plotly-2.35.0.min.js"></script>
+</head>
+<body>
+  <div class="page-wrapper">
+
+    <nav class="module-nav">
+      <a href="../index.html">← all chapters</a>
+      <span>03 / 05 · the patch</span>
+    </nav>
+
+    <section class="hero" style="padding-top: 1rem; padding-bottom: 2rem;">
+      <div class="eyebrow">CHAPTER 03 · THE PATCH</div>
+      <h1>A small knob that <span class="accent">changes everything</span>.</h1>
+      <p class="hook">
+        OLS with 493 features and 203 training rows is an under-determined catastrophe.
+        Ridge, Lasso and Elastic Net add one extra parameter &mdash; the regularisation
+        strength <span class="mono">α</span> &mdash; that penalises large coefficients.
+        Sweep it across a log scale and watch test R² climb from negative numbers into
+        positive territory. Lasso does more: it sets most features&rsquo; coefficients to
+        exactly zero.
+      </p>
+    </section>
+
+    <div id="loading" class="loading">loading regularisation sweep …</div>
+
+    <main id="patch" hidden></main>
+
+    <nav class="module-nav" style="margin-top: 3rem;">
+      <a href="./02_crash.html">← 02 · the crash</a>
+      <a href="./04_reveal.html">04 · the reveal →</a>
+    </nav>
+  </div>
+
+  <script type="module">
+    import { mount } from "../js/patch.js";
+    (async () => {
+      try {
+        const host = document.getElementById("patch");
+        await mount(host);
+        document.getElementById("loading").hidden = true;
+        host.hidden = false;
+      } catch (err) {
+        document.getElementById("loading").innerHTML =
+          `<p style="color: var(--role-spurious)">Failed to load: ${err?.message ?? err}</p>`;
+        console.error(err);
+      }
+    })();
+  </script>
+</body>
+</html>

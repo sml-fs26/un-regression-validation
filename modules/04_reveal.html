@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>04 · The Reveal — which features did the model keep?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="https://cdn.plot.ly/plotly-2.35.0.min.js"></script>
+</head>
+<body>
+  <div class="page-wrapper">
+
+    <nav class="module-nav">
+      <a href="../index.html">← all chapters</a>
+      <span>04 / 05 · the reveal</span>
+    </nav>
+
+    <section class="hero" style="padding-top: 1rem; padding-bottom: 2rem;">
+      <div class="eyebrow">CHAPTER 04 · THE REVEAL</div>
+      <h1>The model kept the <span class="accent">wrong</span> features.</h1>
+      <p class="hook">
+        Lasso promised you a feature selector. Here are the features it selected. The codebook
+        labels every feature by role &mdash; causal, spurious, incidental &mdash; and this
+        chapter colours each survivor by its label. Then we compare Lasso's top 20 against a
+        Random Forest's top 20. The two models pick different features. The argument for trust
+        in any one of them evaporates.
+      </p>
+    </section>
+
+    <div id="loading" class="loading">loading importances …</div>
+
+    <main id="reveal" hidden></main>
+
+    <nav class="module-nav" style="margin-top: 3rem;">
+      <a href="./03_patch.html">← 03 · the patch</a>
+      <a href="./05_trust.html">05 · the trust →</a>
+    </nav>
+  </div>
+
+  <script type="module">
+    import { mount } from "../js/reveal.js";
+    (async () => {
+      try {
+        const host = document.getElementById("reveal");
+        await mount(host);
+        document.getElementById("loading").hidden = true;
+        host.hidden = false;
+      } catch (err) {
+        document.getElementById("loading").innerHTML =
+          `<p style="color: var(--role-spurious)">Failed to load: ${err?.message ?? err}</p>`;
+        console.error(err);
+      }
+    })();
+  </script>
+</body>
+</html>

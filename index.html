@@ -56,35 +56,34 @@
           </div>
         </a>
 
-        <div class="module-card stub">
+        <a href="./modules/03_patch.html" class="module-card ready">
           <div class="num">03 · THE PATCH</div>
-          <div class="title">Regularization rescues prediction</div>
+          <div class="title">Regularisation rescues prediction</div>
           <div class="desc">
             Sweep &alpha; in Ridge, Lasso, Elastic Net. Watch the test score climb out of its
             crater. Then notice which features Lasso decided to keep &hellip;
           </div>
-        </div>
+        </a>
 
-        <div class="module-card stub">
+        <a href="./modules/04_reveal.html" class="module-card ready">
           <div class="num">04 · THE REVEAL</div>
           <div class="title">The model kept the wrong features</div>
           <div class="desc">
-            Lasso&rsquo;s top-20 coefficients include country-name letter counts and
-            vowel-to-consonant ratios. Random Forest&rsquo;s top-20 do not. The &ldquo;best&rdquo;
-            linear model fell for the same spurious correlations a human would have
-            dismissed in Chapter 01.
+            Lasso&rsquo;s top 20 includes features the codebook labels as spurious. Random
+            Forest&rsquo;s top 20 does not. The two models disagree on what mattered, and the
+            disagreement is the argument for not trusting any single model&rsquo;s picks.
           </div>
-        </div>
+        </a>
 
-        <div class="module-card stub">
+        <a href="./modules/05_trust.html" class="module-card ready">
           <div class="num">05 · THE TRUST</div>
           <div class="title">One split lied; what does cross-validation say?</div>
           <div class="desc">
-            Every number so far came from one random train/test split. Resample. Look at the
-            spread. The point estimate you took as &ldquo;the answer&rdquo; was one draw in a
-            distribution wider than you guessed.
+            Every number so far came from one random train/test split. Resample 100 times.
+            The spread is wider than you guessed &mdash; OLS test R² ranges from
+            &minus;0.8 to +0.5 depending only on which countries were held out.
           </div>
-        </div>
+        </a>
 
       </div>
     </section>

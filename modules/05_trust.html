@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>05 · The Trust — one split lied; the distribution tells the truth</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="https://cdn.plot.ly/plotly-2.35.0.min.js"></script>
+</head>
+<body>
+  <div class="page-wrapper">
+
+    <nav class="module-nav">
+      <a href="../index.html">← all chapters</a>
+      <span>05 / 05 · the trust</span>
+    </nav>
+
+    <section class="hero" style="padding-top: 1rem; padding-bottom: 2rem;">
+      <div class="eyebrow">CHAPTER 05 · THE TRUST</div>
+      <h1>One split lied. <span class="accent">Resample</span> until it talks.</h1>
+      <p class="hook">
+        Every test R² in this story came from the same seed-42 train/test split. Change the
+        seed and the number changes. Do it a hundred times and a distribution emerges. The
+        point estimate you reported was one sample from this distribution &mdash; and for
+        un-regularised OLS on all features, the distribution is catastrophically wide. Here is
+        what the distribution actually looks like; here is what cross-validation says about it.
+      </p>
+    </section>
+
+    <div id="loading" class="loading">loading resampling distributions …</div>
+
+    <main id="trust" hidden></main>
+
+    <nav class="module-nav" style="margin-top: 3rem;">
+      <a href="./04_reveal.html">← 04 · the reveal</a>
+      <a href="../index.html">back to all chapters</a>
+    </nav>
+  </div>
+
+  <script type="module">
+    import { mount } from "../js/trust.js";
+    (async () => {
+      try {
+        const host = document.getElementById("trust");
+        await mount(host);
+        document.getElementById("loading").hidden = true;
+        host.hidden = false;
+      } catch (err) {
+        document.getElementById("loading").innerHTML =
+          `<p style="color: var(--role-spurious)">Failed to load: ${err?.message ?? err}</p>`;
+        console.error(err);
+      }
+    })();
+  </script>
+</body>
+</html>
