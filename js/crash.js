@@ -108,7 +108,10 @@ function renderSweep(host, sweep) {
       title: { text: "number of features (p), in codebook order", font: { size: 12, color: "#94a3b8" } },
       gridcolor: "#233966",
       zerolinecolor: "#233966",
-      range: [0, p_max + 10],
+      range: [0, p_max],
+      autorange: false,
+      rangemode: "nonnegative",
+      constrain: "range",
     },
     yaxis: {
       title: { text: "R² (clamped to ≥ −5)", font: { size: 12, color: "#94a3b8" } },
@@ -157,7 +160,7 @@ function renderPredGrid(host, picks) {
   for (const snap of picks) {
     const row = document.createElement("div");
     row.style.display = "grid";
-    row.style.gridTemplateColumns = "180px 1fr 1fr";
+    row.style.gridTemplateColumns = "180px minmax(0, 1fr) minmax(0, 1fr)";
     row.style.gap = "1rem";
     row.style.alignItems = "center";
     row.innerHTML = `

@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
   <script src="https://cdn.plot.ly/plotly-2.35.0.min.js"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
   <div class="page-wrapper">
@@ -29,6 +30,51 @@
         positive territory. Lasso does more: it sets most features&rsquo; coefficients to
         exactly zero.
       </p>
+    </section>
+
+    <section class="widget">
+      <h2>The three loss functions</h2>
+      <p class="help">
+        OLS minimises the squared error between prediction and truth. With
+        <span class="mono">p &gt; n</span> this minimum is reached for many coefficient
+        vectors, and the one OLS lands on is wildly unstable. Each of the three models below
+        adds a <strong>penalty term</strong> that prefers smaller or sparser coefficient
+        vectors — breaking the tie and stabilising the fit.
+      </p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
+        <div style="background: var(--bg-elevated); border-left: 3px solid #60a5fa; padding: 1rem 1.25rem;">
+          <div class="mono" style="color: #60a5fa; margin-bottom: .5rem;">Ridge</div>
+          <div style="font-size: 1.05rem; margin: .5rem 0;">
+            \[ \hat\beta_{\text{ridge}} = \arg\min_\beta \left( \| y - X\beta \|_2^2 + \alpha \|\beta\|_2^2 \right) \]
+          </div>
+          <p class="help" style="margin: 0;">
+            Penalises the <strong>sum of squared</strong> coefficients. Shrinks every
+            coefficient toward zero, none to exactly zero. Best when many features are
+            weakly useful.
+          </p>
+        </div>
+        <div style="background: var(--bg-elevated); border-left: 3px solid #f59e0b; padding: 1rem 1.25rem;">
+          <div class="mono" style="color: #f59e0b; margin-bottom: .5rem;">Lasso</div>
+          <div style="font-size: 1.05rem; margin: .5rem 0;">
+            \[ \hat\beta_{\text{lasso}} = \arg\min_\beta \left( \| y - X\beta \|_2^2 + \alpha \|\beta\|_1 \right) \]
+          </div>
+          <p class="help" style="margin: 0;">
+            Penalises the <strong>sum of absolute</strong> coefficients. The geometry of
+            the \(\ell_1\) penalty drives many coefficients to <strong>exactly zero</strong>
+            — making Lasso a feature selector, not just a shrinker.
+          </p>
+        </div>
+        <div style="background: var(--bg-elevated); border-left: 3px solid #a78bfa; padding: 1rem 1.25rem;">
+          <div class="mono" style="color: #a78bfa; margin-bottom: .5rem;">Elastic Net</div>
+          <div style="font-size: 1.05rem; margin: .5rem 0;">
+            \[ \hat\beta_{\text{enet}} = \arg\min_\beta \left( \| y - X\beta \|_2^2 + \alpha \rho \|\beta\|_1 + \alpha (1-\rho) \|\beta\|_2^2 \right) \]
+          </div>
+          <p class="help" style="margin: 0;">
+            A convex combination of both penalties (we use \(\rho = 0.5\)). Inherits Lasso's
+            sparsity and Ridge's stability when features are correlated.
+          </p>
+        </div>
+      </div>
     </section>
 
     <div id="loading" class="loading">loading regularisation sweep …</div>

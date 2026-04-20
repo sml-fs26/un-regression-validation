@@ -132,86 +132,32 @@ function sharedLayout(height) {
 }
 
 /**
- * Mount the bar chart with a view-mode toggle.
- * `host` is an empty container element; this function injects the controls
- * and the plot host, then keeps them in sync with user toggles.
+ * Mount the bar chart. Always renders the top 100 of 493 by |r|, role-colored.
+ * No toggles: the ranked list speaks for itself.
  */
 export function mountTopCorrelations(host, bundle, opts = {}) {
-  const defaultK = opts.topK ?? 15;
-  const defaultN = opts.topN ?? 30;
+  const topN = opts.topN ?? 100;
 
   host.innerHTML = `
-    <div class="controls">
-      <label>view:
-        <select data-view>
-          <option value="per-role" selected>top of each role</option>
-          <option value="overall">top overall</option>
-        </select>
-      </label>
-      <label>per role K:
-        <select data-topk>
-          <option value="5">5</option>
-          <option value="10">10</option>
-          <option value="15" selected>15</option>
-          <option value="25">25</option>
-        </select>
-      </label>
-      <label>overall N:
-        <select data-topn>
-          <option value="15">15</option>
-          <option value="30" selected>30</option>
-          <option value="50">50</option>
-          <option value="100">100</option>
-        </select>
-      </label>
-    </div>
     <div data-plot class="plot"></div>
     <div data-caption class="muted mono" style="margin-top: .75rem; font-size: .82rem;"></div>
   `;
-
-  const $view    = host.querySelector("[data-view]");
-  const $topk    = host.querySelector("[data-topk]");
-  const $topn    = host.querySelector("[data-topn]");
   const $plot    = host.querySelector("[data-plot]");
   const $caption = host.querySelector("[data-caption]");
 
   const ranked = rankFeatures(bundle);
+  renderOverall($plot, ranked, topN);
 
-  // Precompute the strongest |r| per role for the caption.
-  const topByRole = Object.fromEntries(
-    ROLES.map(role => [role, (ranked.find(d => d.role === role)?.r) ?? 0])
-  );
+  const roleCounts = { causal: 0, spurious: 0, incidental: 0 };
+  for (const d of ranked.slice(0, topN)) roleCounts[d.role] = (roleCounts[d.role] ?? 0) + 1;
+  const topSpur = ranked.find(d => d.role === "spurious");
 
-  function render() {
-    const mode = $view.value;
-    if (mode === "overall") {
-      const n = +$topn.value;
-      renderOverall($plot, ranked, n);
-      $topn.disabled = false;
-      $topk.disabled = true;
-      $caption.innerHTML =
-        `Top ${n} of 493 features by |r|. ` +
-        `<span style="color:${ROLE_COLORS.spurious}">spurious</span> features rarely reach the overall top-30, but ` +
-        `their strongest (|r| ≈ ${Math.abs(topByRole.spurious).toFixed(2)}) is higher than you might guess from noise.`;
-    } else {
-      const k = +$topk.value;
-      renderPerRole($plot, ranked, k);
-      $topn.disabled = true;
-      $topk.disabled = false;
-      $caption.innerHTML =
-        `Top ${k} of each role. ` +
-        `Strongest by role: ` +
-        ROLES.map(r => `<span class="mono" style="color:${ROLE_COLORS[r]}">${r}</span> |r|≈${Math.abs(topByRole[r]).toFixed(2)}`).join(" · ") +
-        `. <strong>Causal</strong> and <strong>incidental</strong> features are nearly indistinguishable by correlation alone; ` +
-        `even the strongest <strong style="color:${ROLE_COLORS.spurious}">spurious</strong> feature, which is literal nonsense, ` +
-        `still outranks roughly half of all causal features.`;
-    }
-  }
-
-  $view.addEventListener("change", render);
-  $topk.addEventListener("change", render);
-  $topn.addEventListener("change", render);
-  render();
+  $caption.innerHTML =
+    `Top ${topN} of 493 features by |r| with log₁₀(GDP per capita). ` +
+    `<span style="color:${ROLE_COLORS.causal}">${roleCounts.causal} causal</span> · ` +
+    `<span style="color:${ROLE_COLORS.spurious}">${roleCounts.spurious} spurious</span> · ` +
+    `<span style="color:${ROLE_COLORS.incidental}">${roleCounts.incidental} incidental</span>. ` +
+    (topSpur ? `Strongest spurious feature in the list (<span class="mono">${topSpur.name}</span>) reaches |r| ≈ ${Math.abs(topSpur.r).toFixed(2)}.` : "");
 
   return ranked;
 }

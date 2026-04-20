@@ -117,15 +117,16 @@ function renderR2(host, alphas, models, baselineOls, bests) {
       type: "scatter", mode: "lines+markers",
       x: alphas, y: models[name].train_r2,
       name: `${LABELS[name]} train`,
+      legendgroup: name,
       line: { color: COLORS[name], width: 1.2, dash: "dot" },
-      marker: { color: COLORS[name], size: 4, opacity: 0.5 },
+      marker: { color: COLORS[name], size: 4, opacity: 0.7 },
       hovertemplate: `α = %{x:.3g}<br>${LABELS[name]} train R² = %{y:.3f}<extra></extra>`,
-      showlegend: false,
     });
     traces.push({
       type: "scatter", mode: "lines+markers",
       x: alphas, y: models[name].test_r2,
       name: `${LABELS[name]} test`,
+      legendgroup: name,
       line: { color: COLORS[name], width: 2.5 },
       marker: { color: COLORS[name], size: 6 },
       hovertemplate: `α = %{x:.3g}<br>${LABELS[name]} test R² = %{y:.3f}<extra></extra>`,
