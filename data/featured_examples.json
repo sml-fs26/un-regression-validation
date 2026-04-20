@@ -1,0 +1,80 @@
+{
+  "causal": [
+    {
+      "feature": "life_expectancy_at_birth",
+      "label": "life expectancy at birth",
+      "r": 0.848,
+      "explain": "Longer lives are what wealth buys and what it takes to build: food, hospitals, sanitation, stable work. This single number compresses dozens of mechanisms that textbooks treat as drivers of prosperity."
+    },
+    {
+      "feature": "pct_internet_users",
+      "label": "% internet users",
+      "r": 0.807,
+      "explain": "Internet access lowers transaction costs, speeds knowledge diffusion, and is part of the productivity story economists take seriously. Rich countries wired up first, and wiring up makes countries richer."
+    },
+    {
+      "feature": "rule_of_law_index",
+      "label": "rule of law index",
+      "r": 0.749,
+      "explain": "Enforceable contracts and predictable courts lower the cost of investment. This is the textbook institutional mechanism for why some countries compound and others don't."
+    },
+    {
+      "feature": "infant_mortality_per_1000",
+      "label": "infant mortality (per 1,000)",
+      "r": -0.756,
+      "explain": "Babies dying is the bluntest signal that the health system, food supply, and income distribution are failing. It moves opposite to wealth because the mechanisms that prevent it are the same ones that build economies."
+    }
+  ],
+  "incidental": [
+    {
+      "feature": "agriculture_value_added_pct_gdp",
+      "label": "agriculture % of GDP",
+      "r": -0.805,
+      "explain": "Poor countries farm; rich countries don't. The farming share falls as economies develop, but shrinking agriculture doesn't make a country rich — it's a symptom of the transition, not the cause."
+    },
+    {
+      "feature": "birth_rate_crude_per_1000",
+      "label": "birth rate (per 1,000)",
+      "r": -0.811,
+      "explain": "Rich countries have fewer babies per year. The mechanism runs the other way — wealth, education, and urbanisation lower fertility. Cutting birth rates by decree would not manufacture prosperity."
+    },
+    {
+      "feature": "pct_population_over_65",
+      "label": "% population over 65",
+      "r": 0.750,
+      "explain": "Wealthy countries are old because their citizens survive to old age and have fewer children. The demographic shape follows prosperity; it does not produce it."
+    },
+    {
+      "feature": "access_to_electricity_pct",
+      "label": "% with electricity access",
+      "r": 0.670,
+      "explain": "Universal electrification tracks wealth almost perfectly, but the last mile of wires is paid for with GDP rather than the other way around. It's a thermometer for development, not a furnace."
+    }
+  ],
+  "spurious": [
+    {
+      "feature": "passport_visa_free_destinations",
+      "label": "visa-free destinations",
+      "r": 0.424,
+      "explain": "Countries with strong passports are those other countries already trust — a diplomatic echo of wealth, not a cause of it. Issuing a fancier passport would not generate a dollar of GDP."
+    },
+    {
+      "feature": "flag_colors_count",
+      "label": "colours in the flag",
+      "r": -0.205,
+      "explain": "Whether a flag has two colours or five is a design decision made by 19th-century committees. The correlation with GDP is the noise you get when you ask 333 silly questions and cherry-pick the loudest answer."
+    },
+    {
+      "feature": "capital_vowel_count",
+      "label": "vowels in the capital's name",
+      "r": -0.156,
+      "explain": "How many As, Es, Is, Os, and Us are in 'Ouagadougou' versus 'Oslo' cannot possibly move an economy. If this feature correlates at all, it's coincidence amplified by a small sample."
+    },
+    {
+      "feature": "scrabble_score_country_name",
+      "label": "Scrabble score of country name",
+      "r": -0.116,
+      "explain": "The English spelling of a country's exonym is historical accident, and the tile values were set by Alfred Butts in 1938. Any correlation with national wealth is the punchline, not a finding."
+    }
+  ]
+}
