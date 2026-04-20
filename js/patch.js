@@ -102,6 +102,14 @@ function formatAlpha(a) {
   return a.toExponential(1);
 }
 
+/**
+ * Match the axis exactly to the range of α values we actually evaluate.
+ * Plotly's auto-log-scale otherwise pads slightly beyond the data.
+ */
+function computeAlphaRange(alphas, models) {
+  return [Math.log10(alphas[0]), Math.log10(alphas[alphas.length - 1])];
+}
+
 function renderR2(host, alphas, models, baselineOls, bests) {
   const traces = [];
   for (const name of Object.keys(models)) {
@@ -160,6 +168,7 @@ function renderR2(host, alphas, models, baselineOls, bests) {
       type: "log",
       title: { text: "regularisation strength α (log scale)", font: { size: 12, color: "#94a3b8" } },
       gridcolor: "#233966", zerolinecolor: "#233966",
+      range: computeAlphaRange(alphas, models),
     },
     yaxis: {
       title: { text: "R² (clamped to [−1, 1])", font: { size: 12, color: "#94a3b8" } },
@@ -206,6 +215,7 @@ function renderNonzero(host, alphas, models, bests) {
       type: "log",
       title: { text: "regularisation strength α (log scale)", font: { size: 12, color: "#94a3b8" } },
       gridcolor: "#233966",
+      range: computeAlphaRange(alphas, models),
     },
     yaxis: {
       title: { text: "non-zero coefficients (of 493)", font: { size: 12, color: "#94a3b8" } },
