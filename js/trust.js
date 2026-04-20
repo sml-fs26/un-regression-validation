@@ -33,7 +33,7 @@ export async function mount(host) {
 
   host.innerHTML = `
     <section class="widget">
-      <h2>${d.n_splits} random train/test splits, ${d.models.length} models <span class="preview-note">preview · ribbon</span></h2>
+      <h2>${d.n_splits} random train/test splits, ${d.models.length} models</h2>
       <p class="help">
         Everything you have seen so far came from one random split of the data (seed = 42).
         Change the seed, re-split, refit. Test \\(R^2\\) changes. Each short horizontal tick
@@ -128,7 +128,7 @@ export async function mount(host) {
     </div>
 
     <section class="widget" data-souvenir-slot>
-      <h2>Your souvenir <span class="preview-note">preview · new</span></h2>
+      <h2>Your souvenir</h2>
       <p class="help">
         A keepsake from the crash: a random held-out country from Chapter 02&rsquo;s
         seed-42 OLS (all 493 features). Press the die to pull another country. The

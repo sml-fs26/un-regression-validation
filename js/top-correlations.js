@@ -284,8 +284,7 @@ export function mountTopCorrelations(host, bundle, opts = {}) {
 
   host.innerHTML = `
     <div class="controls" data-view-toggle style="gap:.5rem; margin-bottom:.75rem;">
-      <span class="preview-note">preview</span>
-      <label style="margin-left:.5rem; color: var(--text-dim);">view:</label>
+      <label style="color: var(--text-dim);">view:</label>
       <button type="button" data-view="beeswarm">role-stratified beeswarm</button>
       <button type="button" data-view="overall">top-${topN} ranked bars</button>
       <button type="button" data-view="per-role">per-role bars</button>
