@@ -44,13 +44,14 @@
       <section class="widget">
         <h2>Top correlations with log(GDP)</h2>
         <p class="help">
-          All 493 features ranked by the absolute Pearson correlation of the feature against
-          log₁₀(GDP per capita). Colour = role. Notice that the top of the list interleaves
-          <span class="mono" style="color:#22c55e">green</span> with
-          <span class="mono" style="color:#ef4444">red</span>: a McDonald's count can ride
-          alongside an education-enrollment rate. Rank is not role.
+          493 features ranked by the absolute Pearson correlation with log₁₀(GDP per capita).
+          The default <em>top of each role</em> view exposes the bind: <strong>causal</strong> and
+          <strong>incidental</strong> features are nearly indistinguishable by correlation, and
+          even the strongest <strong style="color:#ef4444">spurious</strong> feature &mdash; which
+          is literal nonsense &mdash; still outranks roughly half of all causal features. Switch
+          to <em>top overall</em> to see the same data ranked across the whole dataset.
         </p>
-        <div id="top-correlations" class="plot plot-tall"></div>
+        <div id="top-correlations"></div>
       </section>
 
       <!-- =============== Widget 2: Scatter Explorer =============== -->
@@ -104,10 +105,12 @@
       <div class="takeaway">
         <div class="label">takeaway</div>
         <p>
-          <em>High correlation does not mean a causal mechanism.</em> Half a dozen of the top
-          features in this dataset are spurious, and the eye cannot separate them from the
-          causal ones on a scatter plot. In the next chapter we will hand every one of these
-          features to a linear regression and watch what happens when we ask it to predict GDP.
+          <em>High correlation does not mean a causal mechanism.</em> Incidental features
+          correlate with GDP as strongly as causal ones; the eye cannot separate them on a
+          scatter plot. Even the strongest of 333 spurious features reaches |r| ≈ 0.47 &mdash;
+          not because of any mechanism, but because with hundreds of shots at the target, some
+          noise lands close. In the next chapter we hand every one of these features to a
+          linear regression and watch what happens when we ask it to predict.
         </p>
       </div>
 

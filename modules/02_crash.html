@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>02 · The Crash — what happens when p grows</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="https://cdn.plot.ly/plotly-2.35.0.min.js"></script>
+</head>
+<body>
+  <div class="page-wrapper">
+
+    <nav class="module-nav">
+      <a href="../index.html">← all chapters</a>
+      <span>02 / 05 · the crash</span>
+    </nav>
+
+    <section class="hero" style="padding-top: 1rem; padding-bottom: 2rem;">
+      <div class="eyebrow">CHAPTER 02 · THE CRASH</div>
+      <h1>When perfect training becomes <span class="accent">catastrophe</span>.</h1>
+      <p class="hook">
+        OLS on all 493 features will memorise the training countries perfectly. Train R²
+        reaches <span class="mono">1.0</span>. Then you ask it to predict GDP for a country it
+        has not seen, and the number that comes back is not just wrong &mdash; it is
+        <span class="mono">-208</span>, or some other negative number that signals the model
+        fits worse than guessing the mean. This chapter walks you across the cliff.
+      </p>
+    </section>
+
+    <div id="loading" class="loading">loading precomputed sweep …</div>
+
+    <main id="crash" hidden></main>
+
+    <nav class="module-nav" style="margin-top: 3rem;">
+      <a href="./01_explore.html">← 01 · the bait</a>
+      <span style="color: var(--text-dim)">next: 03 · the patch (coming soon)</span>
+    </nav>
+
+  </div>
+
+  <script type="module">
+    import { mount } from "../js/crash.js";
+    (async () => {
+      try {
+        const host = document.getElementById("crash");
+        await mount(host);
+        document.getElementById("loading").hidden = true;
+        host.hidden = false;
+      } catch (err) {
+        document.getElementById("loading").innerHTML =
+          `<p style="color: var(--role-spurious)">Failed to load: ${err?.message ?? err}</p>`;
+        console.error(err);
+      }
+    })();
+  </script>
+</body>
+</html>
