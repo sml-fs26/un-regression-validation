@@ -58,13 +58,12 @@
       <section class="widget">
         <h2>Top correlations with log(GDP)</h2>
         <p class="help">
-          Every feature in your dataset, ranked by absolute Pearson correlation with
-          log₁₀(GDP per capita). The default view shows the strongest candidates inside each
-          role &mdash; and here&rsquo;s the bind: <strong>causal</strong> and
-          <strong>incidental</strong> features are practically tied, and the top
-          <strong style="color:#ef4444">spurious</strong> feature, which is literal nonsense,
-          still outranks roughly half of the genuinely causal ones. Switch to <em>top
-          overall</em> to see them mixed in a single ranking.
+          The top 100 of 493 features, ranked by absolute Pearson correlation with
+          log₁₀(GDP per capita). The bind is hard to miss: <strong>causal</strong> and
+          <strong>incidental</strong> features trade places throughout the leaderboard, and
+          even the strongest <strong style="color:#ef4444">spurious</strong> feature &mdash;
+          something whose only connection to GDP is the spelling of the country&rsquo;s name
+          &mdash; still outranks roughly half of the genuinely causal ones.
         </p>
         <div id="top-correlations"></div>
       </section>
@@ -151,7 +150,7 @@
         document.getElementById("main").hidden = false;
 
         mountFeaturedExamples(document.getElementById("featured-examples-host"), bundle);
-        renderTopCorrelations(document.getElementById("top-correlations"), bundle, { topN: 30 });
+        renderTopCorrelations(document.getElementById("top-correlations"), bundle, { topN: 100 });
         mountScatterExplorer(document.getElementById("scatter-explorer"), bundle);
         mountQuiz(document.getElementById("quiz"), bundle);
       } catch (err) {
