@@ -23,23 +23,22 @@
       <div class="eyebrow">CHAPTER 03 · THE PATCH</div>
       <h1>A small knob that <span class="accent">changes everything</span>.</h1>
       <p class="hook">
-        OLS with 493 features and 203 training rows is an under-determined catastrophe.
-        Ridge, Lasso and Elastic Net add one extra parameter &mdash; the regularisation
-        strength <span class="mono">α</span> &mdash; that penalises large coefficients.
-        Sweep it across a log scale and watch test R² climb from negative numbers into
-        positive territory. Lasso does more: it sets most features&rsquo; coefficients to
-        exactly zero.
+        493 features and 203 training countries is a lost cause for plain OLS. Ridge, Lasso
+        and Elastic Net each add one parameter &mdash; the regularisation strength
+        <span class="mono">α</span> &mdash; that pushes back against oversized coefficients.
+        Sweep α on a log scale and test R² climbs out of the hole. Lasso goes one step
+        further and silences most of the features outright. One knob. Whole different model.
       </p>
     </section>
 
     <section class="widget">
       <h2>The three loss functions</h2>
       <p class="help">
-        OLS minimises the squared error between prediction and truth. With
-        <span class="mono">p &gt; n</span> this minimum is reached for many coefficient
-        vectors, and the one OLS lands on is wildly unstable. Each of the three models below
-        adds a <strong>penalty term</strong> that prefers smaller or sparser coefficient
-        vectors — breaking the tie and stabilising the fit.
+        OLS picks the coefficients that minimise squared error. When <span class="mono">p &gt;
+        n</span>, infinitely many coefficient vectors achieve the same minimum, and the one
+        OLS lands on is whichever the linear-algebra routine happened to prefer. Each model
+        below adds a <strong>penalty term</strong> that breaks the tie, favouring smaller or
+        sparser coefficients. The fit becomes a choice, not an accident.
       </p>
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
         <div style="background: var(--bg-elevated); border-left: 3px solid #60a5fa; padding: 1rem 1.25rem;">
@@ -48,9 +47,9 @@
             \[ \hat\beta_{\text{ridge}} = \arg\min_\beta \left( \| y - X\beta \|_2^2 + \alpha \|\beta\|_2^2 \right) \]
           </div>
           <p class="help" style="margin: 0;">
-            Penalises the <strong>sum of squared</strong> coefficients. Shrinks every
-            coefficient toward zero, none to exactly zero. Best when many features are
-            weakly useful.
+            Penalises the <strong>sum of squared</strong> coefficients. Shrinks everything
+            toward zero, nothing exactly to zero. Useful when you suspect many features are
+            each a little bit useful.
           </p>
         </div>
         <div style="background: var(--bg-elevated); border-left: 3px solid #f59e0b; padding: 1rem 1.25rem;">
@@ -59,9 +58,9 @@
             \[ \hat\beta_{\text{lasso}} = \arg\min_\beta \left( \| y - X\beta \|_2^2 + \alpha \|\beta\|_1 \right) \]
           </div>
           <p class="help" style="margin: 0;">
-            Penalises the <strong>sum of absolute</strong> coefficients. The geometry of
-            the \(\ell_1\) penalty drives many coefficients to <strong>exactly zero</strong>
-            — making Lasso a feature selector, not just a shrinker.
+            Penalises the <strong>sum of absolute</strong> coefficients. The \(\ell_1\)
+            geometry forces many coefficients <strong>exactly to zero</strong>, turning Lasso
+            into a feature selector and not just a shrinker.
           </p>
         </div>
         <div style="background: var(--bg-elevated); border-left: 3px solid #a78bfa; padding: 1rem 1.25rem;">
@@ -70,8 +69,8 @@
             \[ \hat\beta_{\text{enet}} = \arg\min_\beta \left( \| y - X\beta \|_2^2 + \alpha \rho \|\beta\|_1 + \alpha (1-\rho) \|\beta\|_2^2 \right) \]
           </div>
           <p class="help" style="margin: 0;">
-            A convex combination of both penalties (we use \(\rho = 0.5\)). Inherits Lasso's
-            sparsity and Ridge's stability when features are correlated.
+            A convex blend of both penalties (here \(\rho = 0.5\)). Keeps Lasso&rsquo;s
+            sparsity and Ridge&rsquo;s stability when features are correlated.
           </p>
         </div>
       </div>
