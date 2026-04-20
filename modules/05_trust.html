@@ -23,6 +23,10 @@
     });'></script>
 </head>
 <body>
+  <div class="preview-banner">
+    ⚠ <strong>preview build</strong> — visual experiments. Main site:
+    <a href="https://sml-fs26.github.io/un-regression-validation/">sml-fs26.github.io/un-regression-validation</a>
+  </div>
   <div class="page-wrapper">
 
     <nav class="module-nav">
@@ -55,12 +59,14 @@
 
   <script type="module">
     import { mount } from "../js/trust.js";
+    import { installDepthToggle } from "../js/depth-toggle.js";
     (async () => {
       try {
         const host = document.getElementById("trust");
         document.getElementById("loading").hidden = true;
         host.hidden = false;
         await mount(host);
+        installDepthToggle();
       } catch (err) {
         document.getElementById("loading").innerHTML =
           `<p style="color: var(--role-spurious)">Failed to load: ${err?.message ?? err}</p>`;
