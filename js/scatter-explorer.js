@@ -4,6 +4,7 @@
    ========================================================================== */
 
 import { ROLE_COLORS, column, pearson, logSafe } from "./data.js";
+import { renderMath } from "./math.js";
 
 export function mountScatterExplorer(host, { rows, columns, roleOf, descOf, target }) {
   const $select = host.querySelector("[data-feature-select]");
@@ -114,9 +115,10 @@ export function mountScatterExplorer(host, { rows, columns, roleOf, descOf, targ
     // Meta line.
     const descTxt = descOf[feat] ? ` &middot; ${descOf[feat]}` : "";
     const roleChip = `<span class="chip ${role}">${role}</span>`;
+    const rDisplay = Number.isFinite(r) ? r.toFixed(3) : "n/a";
     $meta.innerHTML =
-      `<span class="mono">r = ${Number.isFinite(r) ? r.toFixed(3) : "n/a"}</span> ` +
-      `&middot; role: ${roleChip}${descTxt}`;
+      `\\(r = ${rDisplay}\\) &middot; role: ${roleChip}${descTxt}`;
+    renderMath($meta);
   }
 
   $select.addEventListener("change", render);

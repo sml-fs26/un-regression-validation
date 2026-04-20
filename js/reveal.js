@@ -4,6 +4,8 @@
    importances, side by side, each bar coloured by its codebook role.
    ========================================================================== */
 
+import { renderMath } from "./math.js";
+
 const IMP_URL = "../data/ch04_importances.json";
 
 const ROLE_COLOR = {
@@ -24,23 +26,24 @@ export async function mount(host) {
     <section class="widget">
       <h2>Lasso's top 20 vs Random Forest's top 20</h2>
       <p class="help">
-        Left: the 20 features with the largest absolute Lasso coefficient at the α that
-        maximises test R² (α ≈ <span class="mono">${d.lasso.alpha.toFixed(2)}</span>;
-        Lasso keeps <strong style="color:#f59e0b">${d.lasso.nonzero}</strong> of
+        Left: the 20 features with the largest absolute Lasso coefficient at the \\(\\alpha\\)
+        that maximises test \\(R^2\\) (\\(\\alpha \\approx ${d.lasso.alpha.toFixed(2)}\\); Lasso
+        keeps <strong style="color:#f59e0b">${d.lasso.nonzero}</strong> of
         ${d.lasso.n_features} features non-zero). Right: the 20 features with the largest
-        <span class="mono">feature_importances_</span> from a default Random Forest. Each bar is
-        coloured by its role in the codebook: <span class="mono" style="color:${ROLE_COLOR.causal}">causal</span>,
+        <span class="mono">feature_importances_</span> from a default Random Forest. Each bar
+        is coloured by its role in the codebook:
+        <span class="mono" style="color:${ROLE_COLOR.causal}">causal</span>,
         <span class="mono" style="color:${ROLE_COLOR.spurious}">spurious</span>,
         <span class="mono" style="color:${ROLE_COLOR.incidental}">incidental</span>.
       </p>
 
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+      <div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.25rem;">
         <div>
           <div style="font-family: var(--font-mono); color: var(--text-muted); margin-bottom: .5rem; font-size: .9rem;">
             Lasso — <span style="color:${ROLE_COLOR.causal}">${lassoBreak.causal} causal</span>
             · <span style="color:${ROLE_COLOR.spurious}">${lassoBreak.spurious} spurious</span>
             · <span style="color:${ROLE_COLOR.incidental}">${lassoBreak.incidental} incidental</span>
-            · test R² = <strong style="color:#ef4444">${d.lasso.test_r2.toFixed(3)}</strong>
+            · test \\(R^2\\) = <strong style="color:#ef4444">${d.lasso.test_r2.toFixed(3)}</strong>
           </div>
           <div data-lasso-plot class="plot" style="min-height: 560px;"></div>
         </div>
@@ -49,7 +52,7 @@ export async function mount(host) {
             Random Forest — <span style="color:${ROLE_COLOR.causal}">${rfBreak.causal} causal</span>
             · <span style="color:${ROLE_COLOR.spurious}">${rfBreak.spurious} spurious</span>
             · <span style="color:${ROLE_COLOR.incidental}">${rfBreak.incidental} incidental</span>
-            · test R² = <strong style="color:#ef4444">${d.rf.test_r2.toFixed(3)}</strong>
+            · test \\(R^2\\) = <strong style="color:#ef4444">${d.rf.test_r2.toFixed(3)}</strong>
           </div>
           <div data-rf-plot class="plot" style="min-height: 560px;"></div>
         </div>
@@ -71,6 +74,7 @@ export async function mount(host) {
 
   renderTopBar(host.querySelector("[data-lasso-plot]"), lassoSurvivors, "|coef|");
   renderTopBar(host.querySelector("[data-rf-plot]"),    rfTop,          "importance");
+  renderMath(host);
 }
 
 function countByRole(items) {

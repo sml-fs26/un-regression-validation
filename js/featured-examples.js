@@ -106,7 +106,7 @@ export async function mountFeaturedExamples(host, bundle) {
   host.innerHTML = `
     <div class="fe-grid" style="
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 1.25rem;
     ">
       ${ROLE_ORDER.map(role => `

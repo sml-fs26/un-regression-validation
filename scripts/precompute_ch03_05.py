@@ -152,17 +152,24 @@ def chapter_04(X: pd.DataFrame, y: pd.Series, cb: pd.DataFrame) -> dict:
 
 # ------------------------------------------------------------------- Ch 05
 
-def chapter_05(X: pd.DataFrame, y: pd.Series) -> dict:
+def chapter_05(X: pd.DataFrame, y: pd.Series, ch03_bests: dict) -> dict:
     # Repeated train/test splits: 100 seeds, for several model families.
     # Tell the user what varying *just the split* looks like.
+    # Alphas are pinned to whatever Chapter 03 found optimal on the seed-42
+    # split, so the story is "use the best-α-you-selected, then see how it
+    # holds up across splits".
     n_splits = 100
 
-    # Pick one reasonable regularized model config for each family.
+    ridge_a = ch03_bests["ridge"]
+    lasso_a = ch03_bests["lasso"]
+    enet_a  = ch03_bests["elasticnet"]
+
     model_specs = [
-        ("OLS (all features)", lambda: LinearRegression()),
-        ("Ridge α=10",          lambda: Ridge(alpha=10, max_iter=20000)),
-        ("Lasso α=100",         lambda: Lasso(alpha=100, max_iter=50000)),
-        ("Random Forest",       lambda: RandomForestRegressor(n_estimators=100, random_state=0, n_jobs=-1)),
+        ("OLS (all features)",       lambda: LinearRegression()),
+        (f"Ridge α={ridge_a:.3g}",       lambda a=ridge_a: Ridge(alpha=a, max_iter=20000)),
+        (f"Lasso α={lasso_a:.3g}",       lambda a=lasso_a: Lasso(alpha=a, max_iter=50000)),
+        (f"Elastic Net α={enet_a:.3g}",  lambda a=enet_a: ElasticNet(alpha=a, l1_ratio=0.5, max_iter=50000)),
+        ("Random Forest",              lambda: RandomForestRegressor(n_estimators=100, random_state=0, n_jobs=-1)),
     ]
 
     results: dict[str, list[float]] = {name: [] for name, _ in model_specs}
@@ -235,9 +242,11 @@ def main() -> None:
     print("ch03 — alpha sweep")
     ch03 = chapter_03(X, y)
     (DATA_DIR / "ch03_alpha_sweep.json").write_text(json.dumps(ch03))
+    ch03_bests: dict[str, float] = {}
     for name, stats in ch03["models"].items():
         best = max(stats["test_r2"])
         best_i = stats["test_r2"].index(best)
+        ch03_bests[name] = float(ch03["alphas"][best_i])
         print(f"  {name:12s} best test R² = {best:.3f} at α = {ch03['alphas'][best_i]:.4g}"
               f" (nonzero: {stats['nonzero'][best_i]})")
 
@@ -249,7 +258,7 @@ def main() -> None:
     print(f"  rf: test R²={ch04['rf']['test_r2']:.3f}")
 
     print("ch05 — repeated splits + kfold")
-    ch05 = chapter_05(X, y)
+    ch05 = chapter_05(X, y, ch03_bests)
     (DATA_DIR / "ch05_cv_distribution.json").write_text(json.dumps(ch05))
     for m in ch05["models"]:
         s = m["summary"]

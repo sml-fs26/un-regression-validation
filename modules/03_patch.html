@@ -36,20 +36,20 @@
       <p class="hook">
         493 features and 203 training countries is a lost cause for plain OLS. Ridge, Lasso
         and Elastic Net each add one parameter &mdash; the regularisation strength
-        <span class="mono">α</span> &mdash; that pushes back against oversized coefficients.
-        Sweep α on a log scale and test R² climbs out of the hole. Lasso goes one step
-        further and silences most of the features outright. One knob. Whole different model.
+        \(\alpha\) &mdash; that pushes back against oversized coefficients. Sweep \(\alpha\)
+        on a log scale and test \(R^2\) climbs out of the hole. Lasso goes one step further
+        and silences most of the features outright. One knob. Whole different model.
       </p>
     </section>
 
     <section class="widget">
       <h2>The three loss functions</h2>
       <p class="help">
-        OLS picks the coefficients that minimise squared error. When <span class="mono">p &gt;
-        n</span>, infinitely many coefficient vectors achieve the same minimum, and the one
-        OLS lands on is whichever the linear-algebra routine happened to prefer. Each model
-        below adds a <strong>penalty term</strong> that breaks the tie, favouring smaller or
-        sparser coefficients. The fit becomes a choice, not an accident.
+        OLS picks the coefficients that minimise squared error. When \(p > n\), infinitely many
+        coefficient vectors achieve the same minimum, and the one OLS lands on is whichever the
+        linear-algebra routine happened to prefer. Each model below adds a
+        <strong>penalty term</strong> that breaks the tie, favouring smaller or sparser
+        coefficients. The fit becomes a choice, not an accident.
       </p>
       <div style="display: flex; flex-direction: column; gap: 1rem;">
         <div style="background: var(--bg-elevated); border-left: 3px solid #60a5fa; padding: 1rem 1.25rem;">
@@ -102,9 +102,9 @@
     (async () => {
       try {
         const host = document.getElementById("patch");
-        await mount(host);
         document.getElementById("loading").hidden = true;
         host.hidden = false;
+        await mount(host);
       } catch (err) {
         document.getElementById("loading").innerHTML =
           `<p style="color: var(--role-spurious)">Failed to load: ${err?.message ?? err}</p>`;

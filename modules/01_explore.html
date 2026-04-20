@@ -8,8 +8,20 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script src="https://cdn.plot.ly/plotly-2.35.0.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload='renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "\\[", right: "\\]", display: true },
+        { left: "$",  right: "$",  display: false },
+        { left: "\\(", right: "\\)", display: false }
+      ],
+      throwOnError: false
+    });'></script>
 </head>
 <body>
   <div class="page-wrapper">
@@ -56,14 +68,15 @@
 
       <!-- =============== Widget 1: Top Correlations =============== -->
       <section class="widget">
-        <h2>Top correlations with log(GDP)</h2>
+        <h2>Top correlations with \(\log(\text{GDP})\)</h2>
         <p class="help">
-          The top 100 of 493 features, ranked by absolute Pearson correlation with
-          log₁₀(GDP per capita). The bind is hard to miss: <strong>causal</strong> and
-          <strong>incidental</strong> features trade places throughout the leaderboard, and
-          even the strongest <strong style="color:#ef4444">spurious</strong> feature &mdash;
-          something whose only connection to GDP is the spelling of the country&rsquo;s name
-          &mdash; still outranks roughly half of the genuinely causal ones.
+          The top 100 of 493 features, ranked by absolute Pearson correlation
+          \(|r|\) with \(\log_{10}(\text{GDP per capita})\). The bind is hard to miss:
+          <strong>causal</strong> and <strong>incidental</strong> features trade places
+          throughout the leaderboard, and even the strongest
+          <strong style="color:#ef4444">spurious</strong> feature &mdash; something whose only
+          connection to GDP is the spelling of the country&rsquo;s name &mdash; still
+          outranks roughly half of the genuinely causal ones.
         </p>
         <div id="top-correlations"></div>
       </section>
@@ -82,10 +95,10 @@
             <select data-feature-select></select>
           </label>
           <label>
-            <input type="checkbox" data-log-x> log₁₀ x
+            <input type="checkbox" data-log-x> \(\log_{10} x\)
           </label>
           <label>
-            <input type="checkbox" data-log-y checked> log₁₀ y (GDP)
+            <input type="checkbox" data-log-y checked> \(\log_{10} y\) (GDP)
           </label>
         </div>
         <div data-meta class="help" style="margin-bottom: 1rem;"></div>
@@ -121,8 +134,8 @@
         <p>
           <em>Correlation never told you what you thought it was telling you.</em> Incidental
           columns match causal ones shoulder for shoulder. The strongest of 333 spurious
-          features still lands at |r| ≈ 0.47 &mdash; not for any reason, but because hundreds
-          of random shots at a target will put a few near the bullseye. Next chapter: you stop
+          features still lands at \(|r| \approx 0.47\) &mdash; not for any reason, but because
+          hundreds of random shots at a target will put a few near the bullseye. Next chapter: you stop
           looking and start fitting. It goes poorly.
         </p>
       </div>

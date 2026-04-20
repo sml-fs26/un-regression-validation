@@ -12,6 +12,7 @@
    ========================================================================== */
 
 import { ROLE_COLORS, column, pearson, logSafe } from "./data.js";
+import { renderMath } from "./math.js";
 
 const ROLES = ["causal", "spurious", "incidental"];
 const ROLE_LABEL = { causal: "causal", spurious: "spurious", incidental: "incidental" };
@@ -153,11 +154,14 @@ export function mountTopCorrelations(host, bundle, opts = {}) {
   const topSpur = ranked.find(d => d.role === "spurious");
 
   $caption.innerHTML =
-    `Top ${topN} of 493 features by |r| with log₁₀(GDP per capita). ` +
+    `Top ${topN} of 493 features by \\(|r|\\) with \\(\\log_{10}(\\text{GDP per capita})\\). ` +
     `<span style="color:${ROLE_COLORS.causal}">${roleCounts.causal} causal</span> · ` +
     `<span style="color:${ROLE_COLORS.spurious}">${roleCounts.spurious} spurious</span> · ` +
     `<span style="color:${ROLE_COLORS.incidental}">${roleCounts.incidental} incidental</span>. ` +
-    (topSpur ? `Strongest spurious feature in the list (<span class="mono">${topSpur.name}</span>) reaches |r| ≈ ${Math.abs(topSpur.r).toFixed(2)}.` : "");
+    (topSpur
+      ? `Strongest spurious feature in the list (<span class="mono">${topSpur.name}</span>) reaches \\(|r| \\approx ${Math.abs(topSpur.r).toFixed(2)}\\).`
+      : "");
+  renderMath($caption);
 
   return ranked;
 }

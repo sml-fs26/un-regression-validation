@@ -8,7 +8,19 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
   <script src="https://cdn.plot.ly/plotly-2.35.0.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload='renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "\\[", right: "\\]", display: true },
+        { left: "$",  right: "$",  display: false },
+        { left: "\\(", right: "\\)", display: false }
+      ],
+      throwOnError: false
+    });'></script>
 </head>
 <body>
   <div class="page-wrapper">
@@ -46,9 +58,9 @@
     (async () => {
       try {
         const host = document.getElementById("trust");
-        await mount(host);
         document.getElementById("loading").hidden = true;
         host.hidden = false;
+        await mount(host);
       } catch (err) {
         document.getElementById("loading").innerHTML =
           `<p style="color: var(--role-spurious)">Failed to load: ${err?.message ?? err}</p>`;

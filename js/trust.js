@@ -5,14 +5,20 @@
    Also: a 5-fold CV boxplot for comparison.
    ========================================================================== */
 
+import { renderMath } from "./math.js";
+
 const CV_URL = "../data/ch05_cv_distribution.json";
 
-const MODEL_COLORS = {
-  "OLS (all features)":    "#ef4444",
-  "Ridge α=10":            "#60a5fa",
-  "Lasso α=100":           "#f59e0b",
-  "Random Forest":         "#a78bfa",
-};
+// Colors keyed by a prefix so they survive changes to the α shown in the label.
+const MODEL_PREFIX_COLORS = [
+  { prefix: "OLS",           color: "#ef4444" },
+  { prefix: "Ridge",         color: "#60a5fa" },
+  { prefix: "Lasso",         color: "#f59e0b" },
+  { prefix: "Elastic Net",   color: "#a78bfa" },
+  { prefix: "Random Forest", color: "#22c55e" },
+];
+const modelColor = name =>
+  (MODEL_PREFIX_COLORS.find(m => name.startsWith(m.prefix))?.color) ?? "#e6eaf2";
 
 export async function mount(host) {
   const d = await fetch(CV_URL).then(r => r.json());
@@ -23,26 +29,27 @@ export async function mount(host) {
 
   host.innerHTML = `
     <section class="widget">
-      <h2>${d.n_splits} random train/test splits, four models</h2>
+      <h2>${d.n_splits} random train/test splits, ${d.models.length} models</h2>
       <p class="help">
         Everything you have seen so far came from one random split of the data (seed = 42).
-        Change the seed, re-split, refit. Test R² changes. Repeating the split
-        <strong>${d.n_splits} times</strong> and collecting the test R² from each exposes the
-        distribution the single number hides. The widest model (<strong
+        Change the seed, re-split, refit. Test \\(R^2\\) changes. Repeating the split
+        <strong>${d.n_splits} times</strong> and collecting the test \\(R^2\\) from each
+        exposes the distribution the single number hides. The widest model (<strong
         class="mono">${worstModelEntry.name}</strong>) spans ${(worstModelEntry.summary.max - worstModelEntry.summary.min).toFixed(2)}
-        R² units across splits.
+        \\(R^2\\) units across splits.
+        The three regularised models use the \\(\\alpha\\) Chapter 03 selected as best on the
+        seed-42 split &mdash; we are asking how that \\(\\alpha\\) behaves when the split changes.
       </p>
       <div data-strip-plot class="plot" style="min-height: 420px;"></div>
     </section>
 
     <section class="widget">
-      <h2>5-fold cross-validation</h2>
+      <h2>\\(k\\)-fold cross-validation (\\(k = ${d.kfold.k}\\))</h2>
       <p class="help">
-        k-fold CV is a principled alternative to one random split: partition the data into
-        <span class="mono">k = ${d.kfold.k}</span> equal-sized folds, train on
-        <span class="mono">k &minus; 1</span> of them, test on the one held out, and cycle through
-        all <span class="mono">k</span> combinations. The spread of the <span class="mono">k</span>
-        test scores is the model&rsquo;s honest uncertainty on this dataset.
+        \\(k\\)-fold CV is a principled alternative to one random split: partition the data into
+        \\(k = ${d.kfold.k}\\) equal-sized folds, train on \\(k - 1\\) of them, test on the one
+        held out, and cycle through all \\(k\\) combinations. The spread of the \\(k\\) test
+        scores is the model&rsquo;s honest uncertainty on this dataset.
       </p>
       <div data-kfold-plot class="plot" style="min-height: 360px;"></div>
     </section>
@@ -54,7 +61,7 @@ export async function mount(host) {
           <thead>
             <tr style="color: var(--text-muted); text-align: right;">
               <th style="text-align: left; padding: .5rem 1rem; border-bottom: 1px solid var(--border);">model</th>
-              <th style="padding: .5rem 1rem; border-bottom: 1px solid var(--border);">median test R²</th>
+              <th style="padding: .5rem 1rem; border-bottom: 1px solid var(--border);">median test \\(R^2\\)</th>
               <th style="padding: .5rem 1rem; border-bottom: 1px solid var(--border);">Q25 — Q75</th>
               <th style="padding: .5rem 1rem; border-bottom: 1px solid var(--border);">min</th>
               <th style="padding: .5rem 1rem; border-bottom: 1px solid var(--border);">max</th>
@@ -63,7 +70,7 @@ export async function mount(host) {
           <tbody>
             ${d.models.map(m => `
               <tr style="text-align: right;">
-                <td style="text-align: left; padding: .45rem 1rem; color: ${MODEL_COLORS[m.name] ?? "#e6eaf2"};">${m.name}</td>
+                <td style="text-align: left; padding: .45rem 1rem; color: ${modelColor(m.name)};">${m.name}</td>
                 <td style="padding: .45rem 1rem;">${m.summary.median.toFixed(3)}</td>
                 <td style="padding: .45rem 1rem; color: var(--text-muted);">${m.summary.q25.toFixed(3)} — ${m.summary.q75.toFixed(3)}</td>
                 <td style="padding: .45rem 1rem; color: var(--text-muted);">${m.summary.min.toFixed(3)}</td>
@@ -78,17 +85,18 @@ export async function mount(host) {
     <div class="takeaway">
       <div class="label">takeaway</div>
       <p>
-        <em>One split lied.</em> Whatever test R² you reported from a single 80/20 was a draw
-        from a distribution, and the distribution is wider than you guessed. Report medians
-        across many splits, or cross-validate; never claim a point estimate is &ldquo;the
-        answer.&rdquo; That is the end of this story, and where every honest model report
-        begins.
+        <em>One split lied.</em> Whatever test \\(R^2\\) you reported from a single 80/20 was
+        a draw from a distribution, and the distribution is wider than you guessed. Report
+        medians across many splits, or cross-validate; never claim a point estimate is
+        &ldquo;the answer.&rdquo; That is the end of this story, and where every honest model
+        report begins.
       </p>
     </div>
   `;
 
   renderStrip(host.querySelector("[data-strip-plot]"), d.models);
   renderKFold(host.querySelector("[data-kfold-plot]"), d.kfold.models);
+  renderMath(host);
 }
 
 function renderStrip(host, models) {
@@ -96,9 +104,9 @@ function renderStrip(host, models) {
     type: "box",
     y: m.test_r2,
     name: m.name,
-    marker: { color: MODEL_COLORS[m.name] ?? "#e6eaf2", size: 5, opacity: 0.6 },
-    line: { color: MODEL_COLORS[m.name] ?? "#e6eaf2" },
-    fillcolor: MODEL_COLORS[m.name] + "22",
+    marker: { color: modelColor(m.name), size: 5, opacity: 0.6 },
+    line: { color: modelColor(m.name) },
+    fillcolor: modelColor(m.name) + "22",
     boxpoints: "all",
     jitter: 0.5,
     pointpos: 0,
@@ -138,9 +146,9 @@ function renderKFold(host, models) {
     type: "box",
     y: m.test_r2,
     name: m.name,
-    marker: { color: MODEL_COLORS[m.name] ?? "#e6eaf2", size: 7 },
-    line: { color: MODEL_COLORS[m.name] ?? "#e6eaf2" },
-    fillcolor: MODEL_COLORS[m.name] + "22",
+    marker: { color: modelColor(m.name), size: 7 },
+    line: { color: modelColor(m.name) },
+    fillcolor: modelColor(m.name) + "22",
     boxpoints: "all",
     jitter: 0.3,
     pointpos: 0,

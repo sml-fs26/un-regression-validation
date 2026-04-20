@@ -5,6 +5,8 @@
    Data precomputed offline by scripts/precompute_ch02.py.
    ========================================================================== */
 
+import { renderMath } from "./math.js";
+
 const SWEEP_URL = "../data/ch02_sweep.json";
 const PREDS_URL = "../data/ch02_predictions.json";
 
@@ -32,12 +34,13 @@ export async function mount(host) {
     <section class="widget">
       <h2>The hockey stick</h2>
       <p class="help">
-        Fit OLS on the first <em>p</em> features (80/20 split, seed = 42). Green = train R²,
-        red = test R². As <em>p</em> grows the train score rises to 1: the model memorises
-        every training country perfectly. The test score collapses across the cliff at
-        <span class="mono" style="color:${COLOR_CLIFF}">p = n = ${sweep.n_train}</span> and
-        plunges to <strong style="color:${COLOR_TEST}">&minus;208</strong> at p = 200. The chart
-        clamps to R² ≥ &minus;5 for legibility; hover any point to read its true value.
+        Fit OLS on the first \\(p\\) features (80/20 split, seed = 42). Green = train
+        \\(R^2\\), red = test \\(R^2\\). As \\(p\\) grows the train score rises to 1: the
+        model memorises every training country perfectly. The test score collapses across the
+        cliff at <span class="mono" style="color:${COLOR_CLIFF}">\\(p = n = ${sweep.n_train}\\)</span>
+        and plunges to <strong style="color:${COLOR_TEST}">\\(-208\\)</strong> at
+        \\(p = 200\\). The chart clamps to \\(R^2 \\geq -5\\) for legibility; hover any point
+        to read its true value.
       </p>
       <div data-sweep-plot class="plot" style="min-height: 460px;"></div>
     </section>
@@ -49,8 +52,9 @@ export async function mount(host) {
         predicted from the model plotted against actual GDP on the training countries; on the
         right, the same plot on the held-out test countries. Points on the diagonal mean the
         model was right. A model that genuinely learned hugs the diagonal in
-        <strong>both</strong> panels. Watch how, at p near <em>n</em>, the right-hand (test)
-        panel disintegrates even as the left (train) locks onto the diagonal.
+        <strong>both</strong> panels. Watch how, at \\(p\\) near \\(n\\), the right-hand (test)
+        panel disintegrates even as the left (train) locks onto the diagonal. Axes are clipped
+        to the real-GDP range; a few catastrophic predictions can fall off-chart.
       </p>
       <div data-preds-grid style="display: grid; gap: 1.25rem;"></div>
     </section>
@@ -58,16 +62,17 @@ export async function mount(host) {
     <div class="takeaway">
       <div class="label">takeaway</div>
       <p>
-        <em>Memorisation is not learning.</em> Perfect training R² can sit alongside any test
-        R² you want, including arbitrarily negative ones. The only honest measure of a model
-        is how it performs on data it has never seen. Chapter 03 asks whether regularisation
-        can pull the test curve back up.
+        <em>Memorisation is not learning.</em> Perfect training \\(R^2\\) can sit alongside
+        any test \\(R^2\\) you want, including arbitrarily negative ones. The only honest
+        measure of a model is how it performs on data it has never seen. Chapter 03 asks
+        whether regularisation can pull the test curve back up.
       </p>
     </div>
   `;
 
   renderSweep(host.querySelector("[data-sweep-plot]"), sweep);
   renderPredGrid(host.querySelector("[data-preds-grid]"), picks);
+  renderMath(host);
 }
 
 function renderSweep(host, sweep) {
@@ -171,8 +176,8 @@ function renderPredGrid(host, picks) {
           test R²  = <span style="color:${COLOR_TEST}">${snap.test_r2.toFixed(3)}</span>
         </div>
       </div>
-      <div data-plot-tr style="min-height: 260px;"></div>
-      <div data-plot-te style="min-height: 260px;"></div>
+      <div data-plot-tr style="min-height: 260px; min-width: 0;"></div>
+      <div data-plot-te style="min-height: 260px; min-width: 0;"></div>
     `;
     host.appendChild(row);
     renderAvP(row.querySelector("[data-plot-tr]"), "train",
@@ -183,10 +188,16 @@ function renderPredGrid(host, picks) {
 }
 
 function renderAvP(host, label, yTrue, yPred, iso, color) {
-  const vals = [...yTrue, ...yPred].filter(Number.isFinite);
-  const lo = Math.min(...vals), hi = Math.max(...vals);
+  // Range the axes to the actual GDP values only, with 5% padding.
+  // Catastrophic-overfit predictions at p near n can land at ±10^18; clipping
+  // to the sane range keeps the reasonable cluster visible — the user asked
+  // for this explicitly ("ok if a small portion of points are not plotted").
+  const trueVals = yTrue.filter(Number.isFinite);
+  const lo = Math.min(...trueVals), hi = Math.max(...trueVals);
   const pad = (hi - lo) * 0.05 || 1;
   const lim = [lo - pad, hi + pad];
+  // Count how many predicted points fall off-chart so the caption can say so.
+  const offChart = yPred.filter(v => Number.isFinite(v) && (v < lim[0] || v > lim[1])).length;
 
   const traces = [
     {
@@ -211,12 +222,24 @@ function renderAvP(host, label, yTrue, yPred, iso, color) {
     margin: { l: 52, r: 12, t: 28, b: 42 },
     height: 260,
     title: {
-      text: label.toUpperCase(),
+      text: offChart > 0
+        ? `${label.toUpperCase()} · ${offChart} off-chart`
+        : label.toUpperCase(),
       font: { color, size: 11, family: "JetBrains Mono, monospace" },
       x: 0, xanchor: "left",
     },
-    xaxis: { title: { text: "actual", font: { size: 10, color: "#94a3b8" } }, gridcolor: "#233966" },
-    yaxis: { title: { text: "predicted", font: { size: 10, color: "#94a3b8" } }, gridcolor: "#233966" },
+    xaxis: {
+      title: { text: "actual", font: { size: 10, color: "#94a3b8" } },
+      gridcolor: "#233966",
+      range: lim,
+      autorange: false,
+    },
+    yaxis: {
+      title: { text: "predicted", font: { size: 10, color: "#94a3b8" } },
+      gridcolor: "#233966",
+      range: lim,
+      autorange: false,
+    },
   };
 
   Plotly.newPlot(host, traces, layout, { displayModeBar: false, responsive: true });

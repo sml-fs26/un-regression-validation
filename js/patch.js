@@ -4,6 +4,8 @@
    Lasso strips most features to zero.
    ========================================================================== */
 
+import { renderMath } from "./math.js";
+
 const SWEEP_URL = "../data/ch03_alpha_sweep.json";
 
 const COLORS = {
@@ -39,23 +41,23 @@ export async function mount(host) {
 
   host.innerHTML = `
     <section class="widget">
-      <h2>Regularised R² across log &alpha;</h2>
+      <h2>Regularised \\(R^2\\) across log \\(\\alpha\\)</h2>
       <p class="help">
         All 493 features handed to three regularised linear models &mdash; Ridge, Lasso,
         Elastic Net &mdash; across a log-scale sweep of the regularisation strength
-        <span class="mono">α</span>. Compare to unregularised OLS (dashed red line):
-        <strong style="color:${COLORS.test}">test R² = ${baseline_ols.test_r2.toFixed(2)}</strong>.
-        Every regularised curve climbs out of the crater. The best α for each model is marked.
+        \\(\\alpha\\). Compare to unregularised OLS (dashed red line):
+        <strong style="color:${COLORS.test}">test \\(R^2\\) = ${baseline_ols.test_r2.toFixed(2)}</strong>.
+        Every regularised curve climbs out of the crater. The best \\(\\alpha\\) for each model is marked.
       </p>
       <div data-r2-plot class="plot" style="min-height: 440px;"></div>
     </section>
 
     <section class="widget">
-      <h2>Lasso drops features as &alpha; grows</h2>
+      <h2>Lasso drops features as \\(\\alpha\\) grows</h2>
       <p class="help">
         Of the 493 features handed to Lasso, most are set to zero once the regularisation
-        strength exceeds a threshold. The curve shows how many features survive at each α.
-        At Lasso's best test-R² α, only
+        strength exceeds a threshold. The curve shows how many features survive at each
+        \\(\\alpha\\). At Lasso's best test-\\(R^2\\) \\(\\alpha\\), only
         <strong style="color:${COLORS.lasso}">${bests.lasso.nonzero}</strong>
         of 493 features carry non-zero coefficients.
       </p>
@@ -63,15 +65,15 @@ export async function mount(host) {
     </section>
 
     <section class="widget">
-      <h2>Best &alpha; per model</h2>
+      <h2>Best \\(\\alpha\\) per model</h2>
       <div style="display: grid; grid-template-columns: repeat(3, minmax(220px, 1fr)); gap: 1rem;">
         ${Object.keys(bests).map(name => `
           <div style="background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 6px; padding: 1rem;">
             <div class="mono" style="font-size: 1.05rem; color: ${COLORS[name]};">${LABELS[name]}</div>
             <div class="mono" style="font-size: .85rem; color: var(--text-muted); margin-top: .75rem; line-height: 1.8;">
-              α       = ${formatAlpha(bests[name].alpha)}<br>
-              train R²= ${bests[name].train_r2.toFixed(3)}<br>
-              test R² = <strong style="color: ${COLORS.test}">${bests[name].test_r2.toFixed(3)}</strong><br>
+              \\(\\alpha\\) = ${formatAlpha(bests[name].alpha)}<br>
+              train \\(R^2\\) = ${bests[name].train_r2.toFixed(3)}<br>
+              test \\(R^2\\) = <strong style="color: ${COLORS.test}">${bests[name].test_r2.toFixed(3)}</strong><br>
               nonzero = ${bests[name].nonzero} / ${n_features}
             </div>
           </div>
@@ -92,6 +94,7 @@ export async function mount(host) {
 
   renderR2($host("data-r2-plot"), alphas, models, baseline_ols, bests);
   renderNonzero($host("data-nz-plot"), alphas, models, bests);
+  renderMath(host);
 
   function $host(attr) { return host.querySelector(`[${attr}]`); }
 }
