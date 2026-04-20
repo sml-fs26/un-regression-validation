@@ -23,11 +23,11 @@
       <div class="eyebrow">CHAPTER 01 · THE BAIT</div>
       <h1>What <span class="accent">predicts</span> GDP?</h1>
       <p class="hook">
-        The dataset hands you 493 columns, each labelled as one of three roles: <em>causal</em>
-        (a plausible economic mechanism), <em>spurious</em> (correlation without cause), and
-        <em>incidental</em> (a real statistic that is not a root cause). The story of Chapter 01
-        is that <strong>you cannot tell them apart by correlation alone</strong>. Scatter, rank,
-        and then test yourself.
+        Day one on the job. You have 493 columns and one target, and no one has told you which
+        columns matter. You do the obvious thing: you rank them by correlation with GDP. We
+        cheat on your behalf and colour each column by its true role &mdash; <em>causal</em>,
+        <em>spurious</em>, <em>incidental</em> &mdash; so you can see what correlation was
+        always going to hide. Scatter, rank, then quiz yourself. You will lose.
       </p>
       <div class="role-legend">
         <span class="chip causal">causal</span>
@@ -36,7 +36,7 @@
       </div>
     </section>
 
-    <div id="loading" class="loading">loading 254 countries × 493 features …</div>
+    <div id="loading" class="loading">loading the dataset …</div>
 
     <main id="main" hidden>
 
@@ -44,12 +44,13 @@
       <section class="widget">
         <h2>Top correlations with log(GDP)</h2>
         <p class="help">
-          493 features ranked by the absolute Pearson correlation with log₁₀(GDP per capita).
-          The default <em>top of each role</em> view exposes the bind: <strong>causal</strong> and
-          <strong>incidental</strong> features are nearly indistinguishable by correlation, and
-          even the strongest <strong style="color:#ef4444">spurious</strong> feature &mdash; which
-          is literal nonsense &mdash; still outranks roughly half of all causal features. Switch
-          to <em>top overall</em> to see the same data ranked across the whole dataset.
+          Every feature in your dataset, ranked by absolute Pearson correlation with
+          log₁₀(GDP per capita). The default view shows the strongest candidates inside each
+          role &mdash; and here&rsquo;s the bind: <strong>causal</strong> and
+          <strong>incidental</strong> features are practically tied, and the top
+          <strong style="color:#ef4444">spurious</strong> feature, which is literal nonsense,
+          still outranks roughly half of the genuinely causal ones. Switch to <em>top
+          overall</em> to see them mixed in a single ranking.
         </p>
         <div id="top-correlations"></div>
       </section>
@@ -58,9 +59,9 @@
       <section class="widget" id="scatter-explorer">
         <h2>Scatter explorer</h2>
         <p class="help">
-          Pick any feature from the menu; the scatter updates against GDP per capita. The
-          colour of the points reflects the feature's role. Toggle log scales for skewed
-          distributions.
+          Pick a feature and see it plotted against GDP per capita. Points are coloured by role,
+          so you can watch a convincing-looking line emerge from a spurious column and a messy
+          cloud appear around a causal one. Toggle log scales when the distribution is skewed.
         </p>
         <div class="controls">
           <label>
@@ -82,9 +83,9 @@
       <section class="widget" id="quiz">
         <h2>Guess the role</h2>
         <p class="help">
-          Look at the scatter. Which category does the codebook put this feature in &mdash;
-          causal, spurious, or incidental? Click your guess; the truth reveals with a one-line
-          justification.
+          Your turn. We hand you a feature and its scatter. You tell us what the codebook
+          thinks it is: causal, spurious, or incidental. The answer flips up with a one-line
+          justification. Keep score.
         </p>
         <div class="quiz-card">
           <div class="quiz-question">
@@ -105,12 +106,11 @@
       <div class="takeaway">
         <div class="label">takeaway</div>
         <p>
-          <em>High correlation does not mean a causal mechanism.</em> Incidental features
-          correlate with GDP as strongly as causal ones; the eye cannot separate them on a
-          scatter plot. Even the strongest of 333 spurious features reaches |r| ≈ 0.47 &mdash;
-          not because of any mechanism, but because with hundreds of shots at the target, some
-          noise lands close. In the next chapter we hand every one of these features to a
-          linear regression and watch what happens when we ask it to predict.
+          <em>Correlation never told you what you thought it was telling you.</em> Incidental
+          columns match causal ones shoulder for shoulder. The strongest of 333 spurious
+          features still lands at |r| ≈ 0.47 &mdash; not for any reason, but because hundreds
+          of random shots at a target will put a few near the bullseye. Next chapter: you stop
+          looking and start fitting. It goes poorly.
         </p>
       </div>
 

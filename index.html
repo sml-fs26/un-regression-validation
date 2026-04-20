@@ -16,12 +16,12 @@
       <div class="eyebrow">CAS BMAI FS26 · Week 1 · coding exercise · un games</div>
       <h1>The <span class="accent">bait</span>, the crash, the patch, the reveal, the trust.</h1>
       <p class="hook">
-        254 countries. 493 features. One target: GDP per capita. Some features carry the
-        economic mechanism the textbook promises &mdash; rule of law, life expectancy, internet
-        penetration. Others &mdash; Scrabble score of the country&rsquo;s name, vowel-to-consonant
-        ratio, UNESCO heritage sites &mdash; correlate with GDP just as strongly, for reasons that
-        have nothing to do with wealth. Five short chapters walk through the pitfalls of
-        high-dimensional regression by letting you play with the data that teaches them.
+        You work for the UN. Your brief: predict GDP per capita. So you pull everything you can
+        lay hands on &mdash; rule of law, life expectancy, internet penetration, but also UNESCO
+        sites, vowel counts, the Scrabble score of each country&rsquo;s name. 493 columns in
+        total. For this tutorial we&rsquo;ve quietly tagged every column as <em>causal</em>,
+        <em>spurious</em>, or <em>incidental</em>. In real life you wouldn&rsquo;t know. Five
+        chapters. One investigation. The data fights back.
       </p>
       <div class="role-legend">
         <span class="chip causal">causal &mdash; a plausible economic mechanism</span>
@@ -39,10 +39,10 @@
           <div class="num">01 · THE BAIT</div>
           <div class="title">What predicts GDP?</div>
           <div class="desc">
-            Browse the dataset. Scatter any feature against GDP. Rank all 493 by how strongly
-            they correlate. Discover that the Scrabble score of a country&rsquo;s name can correlate
-            with GDP as strongly as the regulatory quality of its government, and that high
-            correlation is not what you thought it was.
+            You start where any honest analyst starts: you plot. You scatter. You rank every
+            feature by its correlation with GDP. Rule of law scores high. So does the
+            Scrabble value of the country&rsquo;s name. You can&rsquo;t tell which is which by
+            looking &mdash; and that&rsquo;s the bait.
           </div>
         </a>
 
@@ -50,9 +50,10 @@
           <div class="num">02 · THE CRASH</div>
           <div class="title">The hockey stick of doom</div>
           <div class="desc">
-            Fit OLS with more and more features. Train R&sup2; climbs smoothly toward 1. Test R&sup2;
-            collapses the moment you cross p=n. Scrub the feature count across the cliff and
-            watch the actual-vs-predicted scatter disintegrate.
+            Emboldened, you hand all 493 features to OLS. Train R&sup2; climbs toward 1:
+            you&rsquo;re a hero. Then you check the test set and the number is negative. Slide
+            the feature count across the cliff at p = n and watch the wheels come off in real
+            time.
           </div>
         </a>
 
@@ -60,8 +61,9 @@
           <div class="num">03 · THE PATCH</div>
           <div class="title">Regularisation rescues prediction</div>
           <div class="desc">
-            Sweep &alpha; in Ridge, Lasso, Elastic Net. Watch the test score climb out of its
-            crater. Then notice which features Lasso decided to keep &hellip;
+            Ridge, Lasso, Elastic Net. One extra knob &mdash; &alpha; &mdash; drags the test
+            score out of the crater. Prediction is saved. Then you look at which features
+            Lasso kept, and the relief doesn&rsquo;t last.
           </div>
         </a>
 
@@ -69,9 +71,9 @@
           <div class="num">04 · THE REVEAL</div>
           <div class="title">The model kept the wrong features</div>
           <div class="desc">
-            Lasso&rsquo;s top 20 includes features the codebook labels as spurious. Random
-            Forest&rsquo;s top 20 does not. The two models disagree on what mattered, and the
-            disagreement is the argument for not trusting any single model&rsquo;s picks.
+            Lasso&rsquo;s top 20 includes features the codebook labels spurious. Random
+            Forest&rsquo;s top 20 is a different set. Both models predict well. They can&rsquo;t
+            both be right about what matters &mdash; and you have no way to decide.
           </div>
         </a>
 
@@ -79,9 +81,9 @@
           <div class="num">05 · THE TRUST</div>
           <div class="title">One split lied; what does cross-validation say?</div>
           <div class="desc">
-            Every number so far came from one random train/test split. Resample 100 times.
-            The spread is wider than you guessed &mdash; OLS test R² ranges from
-            &minus;0.8 to +0.5 depending only on which countries were held out.
+            Every number so far came from one random train/test split. Resample a hundred
+            times and a wide distribution appears where you thought you had a single answer.
+            You end the story chastened. Also: better at your job.
           </div>
         </a>
 
@@ -91,13 +93,13 @@
     <section>
       <h2>Data source</h2>
       <p class="muted">
-        Everything you see is computed live in your browser from
+        Everything on this site is computed live in your browser from
         <code>gdp_spurious_regression_dataset.csv</code> (254 rows &times; 495 columns) and
-        <code>codebook.csv</code>, both taken directly from the
+        <code>codebook.csv</code>, both lifted directly from the
         <a href="https://github.com/eth-bmai-fs26/coding-exercises/tree/week1/cx1_un-games">
-        <code>eth-bmai-fs26/coding-exercises</code></a> Colab notebooks. No pre-baked charts, no
-        cherry-picked numbers. Pick a feature, change the scale, and watch the story
-        rearrange.
+        <code>eth-bmai-fs26/coding-exercises</code></a> Colab notebooks. No pre-baked charts,
+        no cherry-picked numbers. Pick a feature, toggle a scale, and watch the story rearrange
+        itself.
       </p>
     </section>
 
