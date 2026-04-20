@@ -23,6 +23,10 @@
     });'></script>
 </head>
 <body>
+  <div class="preview-banner">
+    ⚠ <strong>preview build</strong> — visual experiments. Main site:
+    <a href="https://sml-fs26.github.io/un-regression-validation/">sml-fs26.github.io/un-regression-validation</a>
+  </div>
   <div class="page-wrapper">
 
     <nav class="module-nav">
@@ -52,38 +56,90 @@
         coefficients. The fit becomes a choice, not an accident.
       </p>
       <div style="display: flex; flex-direction: column; gap: 1rem;">
-        <div style="background: var(--bg-elevated); border-left: 3px solid #60a5fa; padding: 1rem 1.25rem;">
-          <div class="mono" style="color: #60a5fa; margin-bottom: .5rem;">Ridge</div>
-          <div style="font-size: 1.05rem; margin: .5rem 0;">
-            \[ \hat\beta_{\text{ridge}} = \arg\min_\beta \left( \| y - X\beta \|_2^2 + \alpha \|\beta\|_2^2 \right) \]
+
+        <!-- Intuitive: no math, just the idea. -->
+        <details class="depth-block" data-depth="intuitive" open>
+          <summary>the three regularisers, in one breath</summary>
+          <div class="depth-body">
+            <p class="help" style="margin: 0;">
+              <strong style="color:#60a5fa">Ridge</strong> shrinks every coefficient a little.
+              <strong style="color:#f59e0b">Lasso</strong> shrinks some coefficients all the way
+              to zero, so features disappear. <strong style="color:#a78bfa">Elastic Net</strong>
+              mixes the two. The single knob \(\alpha\) controls how hard the penalty pushes.
+            </p>
           </div>
-          <p class="help" style="margin: 0;">
-            Penalises the <strong>sum of squared</strong> coefficients. Shrinks everything
-            toward zero, nothing exactly to zero. Useful when you suspect many features are
-            each a little bit useful.
-          </p>
-        </div>
-        <div style="background: var(--bg-elevated); border-left: 3px solid #f59e0b; padding: 1rem 1.25rem;">
-          <div class="mono" style="color: #f59e0b; margin-bottom: .5rem;">Lasso</div>
-          <div style="font-size: 1.05rem; margin: .5rem 0;">
-            \[ \hat\beta_{\text{lasso}} = \arg\min_\beta \left( \| y - X\beta \|_2^2 + \alpha \|\beta\|_1 \right) \]
+        </details>
+
+        <details class="depth-block" data-depth="technical" open>
+          <summary>Ridge · \(\ell_2\) penalty</summary>
+          <div class="depth-body" style="background: transparent; border-left: 3px solid #60a5fa; padding: .5rem 1rem;">
+            <div class="mono" style="color: #60a5fa; margin-bottom: .5rem;">Ridge</div>
+            <div style="font-size: 1.05rem; margin: .5rem 0;">
+              \[ \hat\beta_{\text{ridge}} = \arg\min_\beta \left( \| y - X\beta \|_2^2 + \alpha \|\beta\|_2^2 \right) \]
+            </div>
+            <p class="help" style="margin: 0;">
+              Penalises the <strong>sum of squared</strong> coefficients. Shrinks everything
+              toward zero, nothing exactly to zero. Useful when you suspect many features are
+              each a little bit useful.
+            </p>
           </div>
-          <p class="help" style="margin: 0;">
-            Penalises the <strong>sum of absolute</strong> coefficients. The \(\ell_1\)
-            geometry forces many coefficients <strong>exactly to zero</strong>, turning Lasso
-            into a feature selector and not just a shrinker.
-          </p>
-        </div>
-        <div style="background: var(--bg-elevated); border-left: 3px solid #a78bfa; padding: 1rem 1.25rem;">
-          <div class="mono" style="color: #a78bfa; margin-bottom: .5rem;">Elastic Net</div>
-          <div style="font-size: 1.05rem; margin: .5rem 0;">
-            \[ \hat\beta_{\text{enet}} = \arg\min_\beta \left( \| y - X\beta \|_2^2 + \alpha \rho \|\beta\|_1 + \alpha (1-\rho) \|\beta\|_2^2 \right) \]
+        </details>
+
+        <details class="depth-block" data-depth="technical" open>
+          <summary>Lasso · \(\ell_1\) penalty</summary>
+          <div class="depth-body" style="background: transparent; border-left: 3px solid #f59e0b; padding: .5rem 1rem;">
+            <div class="mono" style="color: #f59e0b; margin-bottom: .5rem;">Lasso</div>
+            <div style="font-size: 1.05rem; margin: .5rem 0;">
+              \[ \hat\beta_{\text{lasso}} = \arg\min_\beta \left( \| y - X\beta \|_2^2 + \alpha \|\beta\|_1 \right) \]
+            </div>
+            <p class="help" style="margin: 0;">
+              Penalises the <strong>sum of absolute</strong> coefficients. The \(\ell_1\)
+              geometry forces many coefficients <strong>exactly to zero</strong>, turning Lasso
+              into a feature selector and not just a shrinker.
+            </p>
           </div>
-          <p class="help" style="margin: 0;">
-            A convex blend of both penalties (here \(\rho = 0.5\)). Keeps Lasso&rsquo;s
-            sparsity and Ridge&rsquo;s stability when features are correlated.
-          </p>
-        </div>
+        </details>
+
+        <details class="depth-block" data-depth="technical" open>
+          <summary>Elastic Net · blended penalty</summary>
+          <div class="depth-body" style="background: transparent; border-left: 3px solid #a78bfa; padding: .5rem 1rem;">
+            <div class="mono" style="color: #a78bfa; margin-bottom: .5rem;">Elastic Net</div>
+            <div style="font-size: 1.05rem; margin: .5rem 0;">
+              \[ \hat\beta_{\text{enet}} = \arg\min_\beta \left( \| y - X\beta \|_2^2 + \alpha \rho \|\beta\|_1 + \alpha (1-\rho) \|\beta\|_2^2 \right) \]
+            </div>
+            <p class="help" style="margin: 0;">
+              A convex blend of both penalties (here \(\rho = 0.5\)). Keeps Lasso&rsquo;s
+              sparsity and Ridge&rsquo;s stability when features are correlated.
+            </p>
+          </div>
+        </details>
+
+        <!-- Deep: the why behind L1 setting coefficients to zero. -->
+        <details class="depth-block" data-depth="deep">
+          <summary>why \(\ell_1\) zeroes things out and \(\ell_2\) doesn&rsquo;t</summary>
+          <div class="depth-body">
+            <p class="help">
+              The constrained-optimisation view: minimising squared error subject to a penalty is
+              equivalent to minimising squared error subject to a <em>constraint set</em>
+              \(\|\beta\|_q \le t\). The \(\ell_2\) ball is a smooth sphere &mdash; a tangent
+              point between the squared-error contours (ellipses) and the sphere almost never
+              lies on an axis, so no coefficient is exactly zero. The \(\ell_1\) ball is a
+              polytope whose vertices sit on the coordinate axes; a tangent point often
+              <em>is</em> a vertex, which zeroes out whichever coordinate that vertex lacks.
+              Formally, \(\hat\beta\) satisfies the KKT conditions
+              \[
+                X^\top (X\beta - y) + \alpha s = 0, \quad s_j \in \begin{cases}
+                  \{\operatorname{sign}(\beta_j)\} & \beta_j \neq 0 \\
+                  [-1, 1] & \beta_j = 0
+                \end{cases}
+              \]
+              where the subgradient \(s_j\) of \(|\beta_j|\) can take any value in \([-1, 1]\)
+              when \(\beta_j = 0\); this slack is exactly what lets Lasso park a coordinate at
+              zero rather than push through.
+            </p>
+          </div>
+        </details>
+
       </div>
     </section>
 
@@ -99,12 +155,14 @@
 
   <script type="module">
     import { mount } from "../js/patch.js";
+    import { installDepthToggle } from "../js/depth-toggle.js";
     (async () => {
       try {
         const host = document.getElementById("patch");
         document.getElementById("loading").hidden = true;
         host.hidden = false;
         await mount(host);
+        installDepthToggle();
       } catch (err) {
         document.getElementById("loading").innerHTML =
           `<p style="color: var(--role-spurious)">Failed to load: ${err?.message ?? err}</p>`;

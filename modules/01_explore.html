@@ -24,6 +24,10 @@
     });'></script>
 </head>
 <body>
+  <div class="preview-banner">
+    ⚠ <strong>preview build</strong> — visual experiments. Main site:
+    <a href="https://sml-fs26.github.io/un-regression-validation/">sml-fs26.github.io/un-regression-validation</a>
+  </div>
   <div class="page-wrapper">
 
     <nav class="module-nav">
@@ -68,15 +72,14 @@
 
       <!-- =============== Widget 1: Top Correlations =============== -->
       <section class="widget">
-        <h2>Top correlations with \(\log(\text{GDP})\)</h2>
+        <h2>Correlations with \(\log(\text{GDP})\), stratified by role</h2>
         <p class="help">
-          The top 100 of 493 features, ranked by absolute Pearson correlation
-          \(|r|\) with \(\log_{10}(\text{GDP per capita})\). The bind is hard to miss:
-          <strong>causal</strong> and <strong>incidental</strong> features trade places
-          throughout the leaderboard, and even the strongest
-          <strong style="color:#ef4444">spurious</strong> feature &mdash; something whose only
-          connection to GDP is the spelling of the country&rsquo;s name &mdash; still
-          outranks roughly half of the genuinely causal ones.
+          All 493 features plotted on the same \(|r|\)-axis, one horizontal band per role.
+          The <strong style="color:#22c55e">causal</strong> and <strong style="color:#94a3b8">incidental</strong>
+          swarms bleed into each other; the <strong style="color:#ef4444">spurious</strong> swarm reaches
+          surprisingly far to the right &mdash; its strongest feature outranks roughly half of the causal
+          ones. Toggle below to switch back to the ranked-bar views if you want the
+          old behaviour.
         </p>
         <div id="top-correlations"></div>
       </section>

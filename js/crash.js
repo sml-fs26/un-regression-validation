@@ -21,6 +21,11 @@ export async function mount(host) {
   ]);
   const snapshots = predsBundle.snapshots;
 
+  // Proposal 1 (preview): scroll-driven confidence-crash gradient. Bind --crash-t
+  // (0 at top, 1 at bottom) on <body>. Easing via smoothstep so the "cliff"
+  // feels sharper near p = n_train.
+  installCrashScroll();
+
   // Pick four representative p values: "too small to matter", "comfortable",
   // "the cliff", "all features". These all exist in the precomputed snapshot set.
   const want = [5, 100, sweep.n_train, sweep.p_max];
@@ -73,6 +78,47 @@ export async function mount(host) {
   renderSweep(host.querySelector("[data-sweep-plot]"), sweep);
   renderPredGrid(host.querySelector("[data-preds-grid]"), picks);
   renderMath(host);
+}
+
+/**
+ * Proposal 1 — scroll-driven gradient on ch02.
+ * Computes t in [0,1] from the scroll position and writes `--crash-top` and
+ * `--crash-bottom` rgb() strings on <body>. The CSS in style.css uses those
+ * variables as the two stops of a fixed-background linear gradient.
+ * Colour path (t = 0 → 1):
+ *   top    rgb( 10,  24,  48 )   calm navy
+ *          rgb(120,   5,   5 )   alarm red
+ *   bottom rgb( 10,  24,  48 )   calm navy
+ *          rgb(  0,   0,   0 )   black past the cliff
+ * A smoothstep easing makes the cliff feel non-linear.
+ */
+function installCrashScroll() {
+  if (typeof window === "undefined") return;
+  const body = document.body;
+  const lerp = (a, b, t) => Math.round(a + (b - a) * t);
+  const rgb = (r, g, b) => `rgb(${r}, ${g}, ${b})`;
+
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    const doc = document.documentElement;
+    const max = Math.max(1, doc.scrollHeight - window.innerHeight);
+    const y = Math.min(1, Math.max(0, window.scrollY / max));
+    const t = y * y * (3 - 2 * y); // smoothstep
+    const top = rgb(lerp(10, 120, t), lerp(24, 5, t), lerp(48, 5, t));
+    const bot = rgb(lerp(10, 5, t),   lerp(24, 0, t), lerp(48, 0, t));
+    body.style.setProperty("--crash-top", top);
+    body.style.setProperty("--crash-bottom", bot);
+  };
+  const onScroll = () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(update);
+    }
+  };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll, { passive: true });
+  update();
 }
 
 function renderSweep(host, sweep) {

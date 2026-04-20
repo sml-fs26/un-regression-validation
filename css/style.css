@@ -311,3 +311,224 @@ footer {
   font-family: var(--font-mono);
 }
 footer a { color: var(--text-muted); }
+
+/* ==========================================================================
+   Preview banner (proposals-preview branch only)
+   ========================================================================== */
+.preview-banner {
+  background: linear-gradient(90deg, #3a1e0a 0%, #4a2a12 100%);
+  border-bottom: 1px solid #7a4d1c;
+  color: #fbbf24;
+  font-family: var(--font-mono);
+  font-size: .82rem;
+  padding: .55rem 1.5rem;
+  text-align: center;
+  letter-spacing: .04em;
+}
+.preview-banner strong { color: #fcd34d; }
+.preview-banner a { color: #fde68a; text-decoration: underline; }
+.preview-note {
+  display: inline-block;
+  margin-left: .5rem;
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  padding: .15rem .5rem;
+  border: 1px solid var(--accent-gold);
+  color: var(--accent-gold);
+  border-radius: 3px;
+  vertical-align: middle;
+}
+
+/* ==========================================================================
+   Proposal 1: scroll-driven confidence-crash gradient on ch02.
+   Two CSS variables (--crash-top, --crash-bottom) are set by the scroll
+   listener with explicit rgb() strings. 0 = calm navy, 1 = alarm red + black.
+   ========================================================================== */
+body.crash-scroll {
+  background:
+    linear-gradient(
+      180deg,
+      var(--crash-top, #0a1830) 0%,
+      var(--crash-bottom, #050810) 100%
+    );
+  transition: background 180ms linear;
+  background-attachment: fixed;
+}
+
+/* ==========================================================================
+   Proposal 6: depth toggle for math.
+   A fixed three-state control (intuitive / technical / deep) drives body
+   classes `.depth-intuitive | .depth-technical | .depth-deep`. Any
+   <details data-depth="technical|deep"> only pops open at or above its depth.
+   ========================================================================== */
+#depth-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 200;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: .35rem;
+  display: flex;
+  gap: .15rem;
+  font-family: var(--font-mono);
+  font-size: .75rem;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+#depth-toggle button {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-muted);
+  padding: .3rem .65rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: .75rem;
+  letter-spacing: .04em;
+  transition: color .15s, border-color .15s, background .15s;
+}
+#depth-toggle button:hover { color: var(--accent-gold); }
+#depth-toggle button.active {
+  background: var(--bg);
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+}
+#depth-toggle .depth-label {
+  padding: .3rem .5rem;
+  color: var(--text-dim);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  font-size: .65rem;
+  align-self: center;
+}
+
+/* Disclosure blocks: intuitive is always visible; technical shows at
+   technical+; deep shows only at deep. */
+details.depth-block {
+  background: var(--bg-elevated);
+  border-left: 3px solid var(--border);
+  border-radius: 4px;
+  padding: .75rem 1rem;
+  margin: .75rem 0;
+}
+details.depth-block > summary {
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: .78rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  list-style: none;
+  outline: none;
+}
+details.depth-block > summary::-webkit-details-marker { display: none; }
+details.depth-block > summary::before {
+  content: "▸ ";
+  display: inline-block;
+  transition: transform .15s;
+  color: var(--accent-gold);
+}
+details.depth-block[open] > summary::before { content: "▾ "; }
+details.depth-block[data-depth="technical"] { border-left-color: #60a5fa; }
+details.depth-block[data-depth="deep"]      { border-left-color: #a78bfa; }
+details.depth-block > .depth-body { margin-top: .75rem; }
+
+/* Hiding rules: in intuitive mode, hide technical + deep wrappers. In
+   technical mode, hide deep wrappers. In deep mode, all visible. */
+body.depth-intuitive details.depth-block[data-depth="technical"],
+body.depth-intuitive details.depth-block[data-depth="deep"]      { display: none; }
+body.depth-technical details.depth-block[data-depth="deep"]      { display: none; }
+
+/* Auto-open everything in a deeper mode to remove ceremony. */
+body.depth-deep details.depth-block,
+body.depth-technical details.depth-block[data-depth="technical"] {
+  /* keep details controllable by the user — don't force open */
+}
+
+/* ==========================================================================
+   Proposal 8: journey souvenir card on ch05 outro.
+   ========================================================================== */
+.souvenir-card {
+  background: linear-gradient(160deg, #1a2b50 0%, #0f1e3b 100%);
+  border: 1px solid var(--accent-gold);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 2rem 0;
+  display: grid;
+  grid-template-columns: 1fr minmax(260px, 380px);
+  gap: 1.5rem;
+  align-items: center;
+}
+.souvenir-card .souvenir-caption {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  line-height: 1.3;
+  color: var(--text);
+}
+.souvenir-card .souvenir-caption .country {
+  color: var(--accent-gold);
+  font-style: italic;
+}
+.souvenir-card .souvenir-stats {
+  font-family: var(--font-mono);
+  font-size: .85rem;
+  color: var(--text-muted);
+  margin-top: .75rem;
+  line-height: 1.7;
+}
+.souvenir-card .souvenir-stats .actual  { color: var(--role-causal); }
+.souvenir-card .souvenir-stats .predicted { color: var(--role-spurious); }
+.souvenir-card .souvenir-share {
+  margin-top: 1rem;
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+.souvenir-card .souvenir-share button {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: .4rem .85rem;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: .8rem;
+  cursor: pointer;
+  transition: border-color .15s, color .15s;
+}
+.souvenir-card .souvenir-share button:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+.souvenir-card .souvenir-plot { min-height: 260px; }
+@media (max-width: 720px) {
+  .souvenir-card { grid-template-columns: 1fr; }
+}
+
+/* ==========================================================================
+   Proposal 5: resampling ribbon (replaces repeated-splits box).
+   ========================================================================== */
+.ribbon-controls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: .75rem;
+  font-family: var(--font-mono);
+  font-size: .82rem;
+  color: var(--text-muted);
+}
+.ribbon-controls input[type="range"] {
+  accent-color: var(--accent-gold);
+  width: 220px;
+}
+.ribbon-controls button {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 4px;
+  padding: .35rem .85rem;
+  font-family: var(--font-mono);
+  font-size: .8rem;
+  cursor: pointer;
+}
+.ribbon-controls button:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
