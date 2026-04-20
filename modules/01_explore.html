@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>01 · The Bait — what predicts GDP?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-2.35.0.min.js"></script>
+</head>
+<body>
+  <div class="page-wrapper">
+
+    <nav class="module-nav">
+      <a href="../index.html">← all chapters</a>
+      <span>01 / 05 · the bait</span>
+    </nav>
+
+    <section class="hero" style="padding-top: 1rem; padding-bottom: 2rem;">
+      <div class="eyebrow">CHAPTER 01 · THE BAIT</div>
+      <h1>What <span class="accent">predicts</span> GDP?</h1>
+      <p class="hook">
+        The dataset hands you 493 columns, each labelled as one of three roles: <em>causal</em>
+        (a plausible economic mechanism), <em>spurious</em> (correlation without cause), and
+        <em>incidental</em> (a real statistic that is not a root cause). The story of Chapter 01
+        is that <strong>you cannot tell them apart by correlation alone</strong>. Scatter, rank,
+        and then test yourself.
+      </p>
+      <div class="role-legend">
+        <span class="chip causal">causal</span>
+        <span class="chip spurious">spurious</span>
+        <span class="chip incidental">incidental</span>
+      </div>
+    </section>
+
+    <div id="loading" class="loading">loading 254 countries × 493 features …</div>
+
+    <main id="main" hidden>
+
+      <!-- =============== Widget 1: Top Correlations =============== -->
+      <section class="widget">
+        <h2>Top correlations with log(GDP)</h2>
+        <p class="help">
+          All 493 features ranked by the absolute Pearson correlation of the feature against
+          log₁₀(GDP per capita). Colour = role. Notice that the top of the list interleaves
+          <span class="mono" style="color:#22c55e">green</span> with
+          <span class="mono" style="color:#ef4444">red</span>: a McDonald's count can ride
+          alongside an education-enrollment rate. Rank is not role.
+        </p>
+        <div id="top-correlations" class="plot plot-tall"></div>
+      </section>
+
+      <!-- =============== Widget 2: Scatter Explorer =============== -->
+      <section class="widget" id="scatter-explorer">
+        <h2>Scatter explorer</h2>
+        <p class="help">
+          Pick any feature from the menu; the scatter updates against GDP per capita. The
+          colour of the points reflects the feature's role. Toggle log scales for skewed
+          distributions.
+        </p>
+        <div class="controls">
+          <label>
+            feature:
+            <select data-feature-select></select>
+          </label>
+          <label>
+            <input type="checkbox" data-log-x> log₁₀ x
+          </label>
+          <label>
+            <input type="checkbox" data-log-y checked> log₁₀ y (GDP)
+          </label>
+        </div>
+        <div data-meta class="help" style="margin-bottom: 1rem;"></div>
+        <div data-plot class="plot"></div>
+      </section>
+
+      <!-- =============== Widget 3: Quiz =============== -->
+      <section class="widget" id="quiz">
+        <h2>Guess the role</h2>
+        <p class="help">
+          Look at the scatter. Which category does the codebook put this feature in &mdash;
+          causal, spurious, or incidental? Click your guess; the truth reveals with a one-line
+          justification.
+        </p>
+        <div class="quiz-card">
+          <div class="quiz-question">
+            <div class="feature-name" data-feature-name></div>
+            <div class="feature-desc" data-feature-desc></div>
+          </div>
+          <div data-plot class="plot" style="min-height: 340px;"></div>
+          <div class="quiz-choices" data-choices></div>
+          <div class="quiz-explain" data-explain></div>
+          <div style="display:flex; justify-content: space-between; align-items: center;">
+            <div class="quiz-progress" data-progress></div>
+            <button type="button" data-next style="visibility: hidden; padding: .55rem 1.25rem; background: var(--bg-elevated); color: var(--text); border: 1px solid var(--border); border-radius: 4px; font-family: var(--font-mono); font-size: .85rem; cursor: pointer;">next →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- =============== Takeaway =============== -->
+      <div class="takeaway">
+        <div class="label">takeaway</div>
+        <p>
+          <em>High correlation does not mean a causal mechanism.</em> Half a dozen of the top
+          features in this dataset are spurious, and the eye cannot separate them from the
+          causal ones on a scatter plot. In the next chapter we will hand every one of these
+          features to a linear regression and watch what happens when we ask it to predict GDP.
+        </p>
+      </div>
+
+      <nav class="module-nav" style="margin-top: 3rem;">
+        <a href="../index.html">← all chapters</a>
+        <span style="color: var(--text-dim)">next: 02 · the crash (coming soon)</span>
+      </nav>
+
+    </main>
+
+  </div>
+
+  <script type="module">
+    import { loadData } from "../js/data.js";
+    import { renderTopCorrelations } from "../js/top-correlations.js";
+    import { mountScatterExplorer } from "../js/scatter-explorer.js";
+    import { mountQuiz } from "../js/quiz.js";
+
+    (async () => {
+      try {
+        const bundle = await loadData();
+        document.getElementById("loading").hidden = true;
+        document.getElementById("main").hidden = false;
+
+        renderTopCorrelations(document.getElementById("top-correlations"), bundle, { topN: 30 });
+        mountScatterExplorer(document.getElementById("scatter-explorer"), bundle);
+        mountQuiz(document.getElementById("quiz"), bundle);
+      } catch (err) {
+        document.getElementById("loading").innerHTML =
+          `<p style="color: var(--role-spurious)">Failed to load data: ${err?.message ?? err}</p>`;
+        console.error(err);
+      }
+    })();
+  </script>
+</body>
+</html>

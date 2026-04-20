@@ -1,0 +1,313 @@
+/* ==========================================================================
+   UN GDP Games — shared styles
+   Dark navy "atlas of nations", role-coded causal / spurious / incidental.
+   ========================================================================== */
+
+:root {
+  --bg:           #0a1830;
+  --bg-card:      #11213f;
+  --bg-elevated:  #162849;
+  --border:       #233966;
+  --text:         #e6eaf2;
+  --text-muted:   #94a3b8;
+  --text-dim:     #6b7b97;
+
+  --role-causal:     #22c55e;
+  --role-spurious:   #ef4444;
+  --role-incidental: #94a3b8;
+  --accent-gold:     #f59e0b;
+
+  --font-serif: 'DM Serif Display', Georgia, serif;
+  --font-sans:  'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono:  'JetBrains Mono', ui-monospace, Menlo, monospace;
+
+  --page-max: 1200px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 16px; scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.page-wrapper {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 3rem 1.5rem 6rem;
+}
+
+a { color: var(--accent-gold); text-decoration: none; transition: color .15s; }
+a:hover { color: #fcd34d; }
+
+h1, h2, h3 { font-weight: 400; line-height: 1.15; font-family: var(--font-serif); }
+h1 { font-size: clamp(2.5rem, 5vw, 4.2rem); margin-bottom: 1rem; letter-spacing: -0.01em; }
+h2 { font-size: clamp(1.6rem, 2.4vw, 2.1rem); margin-bottom: 1rem; margin-top: 3rem; }
+h3 { font-size: 1.2rem; font-family: var(--font-sans); font-weight: 600; margin-bottom: .5rem; }
+
+p { margin-bottom: 1rem; color: var(--text); }
+.muted { color: var(--text-muted); }
+
+code, .mono { font-family: var(--font-mono); font-size: .92em; }
+
+/* --- Hero --- */
+.hero {
+  padding: 3rem 0 4rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 3rem;
+}
+.hero .eyebrow {
+  font-family: var(--font-mono);
+  font-size: .78rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 1.5rem;
+}
+.hero h1 .accent { color: var(--accent-gold); font-style: italic; }
+.hero .hook {
+  font-size: 1.15rem;
+  max-width: 60ch;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+/* --- Role legend (compact) --- */
+.role-legend {
+  display: flex;
+  gap: 1.75rem;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: .82rem;
+  color: var(--text-muted);
+  margin-top: 1.5rem;
+}
+.role-legend .chip {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+}
+.role-legend .chip::before {
+  content: "";
+  width: 11px;
+  height: 11px;
+  border-radius: 2px;
+  display: inline-block;
+}
+.role-legend .chip.causal::before     { background: var(--role-causal); }
+.role-legend .chip.spurious::before   { background: var(--role-spurious); }
+.role-legend .chip.incidental::before { background: var(--role-incidental); }
+
+/* --- Module card grid --- */
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.module-card {
+  display: block;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.75rem 1.5rem;
+  color: var(--text);
+  transition: border-color .15s, transform .15s, background .15s;
+  min-height: 210px;
+  position: relative;
+}
+.module-card.ready:hover {
+  border-color: var(--accent-gold);
+  transform: translateY(-2px);
+  background: var(--bg-elevated);
+}
+.module-card .num {
+  font-family: var(--font-mono);
+  font-size: .78rem;
+  letter-spacing: .14em;
+  color: var(--text-dim);
+  margin-bottom: .75rem;
+}
+.module-card .title {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  line-height: 1.2;
+  margin-bottom: .75rem;
+  color: var(--text);
+}
+.module-card .desc {
+  font-size: .95rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+.module-card.stub .title { color: var(--text-muted); }
+.module-card.stub::after {
+  content: "coming soon";
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  letter-spacing: .14em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+/* --- Back nav on module pages --- */
+.module-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: var(--font-mono);
+  font-size: .85rem;
+  margin-bottom: 2rem;
+  color: var(--text-dim);
+}
+.module-nav a { color: var(--text-muted); }
+.module-nav a:hover { color: var(--accent-gold); }
+
+/* --- Widget container (module-level) --- */
+.widget {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+.widget h2 { margin-top: 0; }
+.widget .help {
+  font-size: .9rem;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.controls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+  font-family: var(--font-mono);
+  font-size: .88rem;
+  color: var(--text-muted);
+}
+.controls label { display: flex; align-items: center; gap: .5rem; }
+.controls select, .controls input[type="text"] {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: .45rem .6rem;
+  font-family: var(--font-mono);
+  font-size: .88rem;
+  min-width: 240px;
+}
+.controls select:focus, .controls input:focus { outline: 2px solid var(--accent-gold); outline-offset: 1px; }
+.controls button {
+  background: var(--bg-elevated);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: .45rem 1rem;
+  font-family: var(--font-mono);
+  font-size: .85rem;
+  cursor: pointer;
+  transition: border-color .15s, color .15s;
+}
+.controls button:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+
+/* --- Plot host --- */
+.plot { min-height: 420px; }
+.plot-tall { min-height: 640px; }
+
+/* --- Takeaway card --- */
+.takeaway {
+  background: linear-gradient(180deg, #1a2b50 0%, #132241 100%);
+  border-left: 3px solid var(--accent-gold);
+  border-radius: 4px;
+  padding: 1.25rem 1.5rem;
+  margin: 2rem 0;
+}
+.takeaway .label {
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: .4rem;
+}
+.takeaway p { font-size: 1.05rem; line-height: 1.55; margin: 0; }
+.takeaway p em { color: var(--accent-gold); font-style: italic; }
+
+/* --- Quiz --- */
+.quiz-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.quiz-question .feature-name {
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  color: var(--accent-gold);
+}
+.quiz-question .feature-desc {
+  font-size: .95rem;
+  color: var(--text-muted);
+  margin-top: .25rem;
+}
+.quiz-choices {
+  display: flex;
+  gap: .75rem;
+  flex-wrap: wrap;
+}
+.quiz-choices button {
+  padding: .55rem 1.25rem;
+  border-radius: 4px;
+  cursor: pointer;
+  background: var(--bg-elevated);
+  color: var(--text);
+  border: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: .92rem;
+  transition: border-color .15s, color .15s;
+}
+.quiz-choices button:hover { border-color: var(--accent-gold); }
+.quiz-choices button.chosen-correct   { border-color: var(--role-causal);     color: var(--role-causal); }
+.quiz-choices button.chosen-incorrect { border-color: var(--role-spurious);   color: var(--role-spurious); }
+.quiz-choices button.is-answer        { border-color: var(--accent-gold); }
+.quiz-choices button:disabled { cursor: default; }
+.quiz-explain {
+  min-height: 1.25rem;
+  font-size: .92rem;
+  color: var(--text-muted);
+}
+.quiz-progress {
+  font-family: var(--font-mono);
+  font-size: .8rem;
+  color: var(--text-dim);
+}
+
+/* --- Load state --- */
+.loading {
+  padding: 2rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: .88rem;
+}
+
+footer {
+  margin-top: 5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: .82rem;
+  font-family: var(--font-mono);
+}
+footer a { color: var(--text-muted); }

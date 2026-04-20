@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UN GDP Games — a visual story about spurious regression</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <div class="page-wrapper">
+
+    <section class="hero">
+      <div class="eyebrow">CAS BMAI FS26 · Week 1 · coding exercise · un games</div>
+      <h1>The <span class="accent">bait</span>, the crash, the patch, the reveal, the trust.</h1>
+      <p class="hook">
+        254 countries. 493 features. One target: GDP per capita. Some features carry the
+        economic mechanism the textbook promises &mdash; rule of law, life expectancy, internet
+        penetration. Others &mdash; Scrabble score of the country&rsquo;s name, vowel-to-consonant
+        ratio, UNESCO heritage sites &mdash; correlate with GDP just as strongly, for reasons that
+        have nothing to do with wealth. Five short chapters walk through the pitfalls of
+        high-dimensional regression by letting you play with the data that teaches them.
+      </p>
+      <div class="role-legend">
+        <span class="chip causal">causal &mdash; a plausible economic mechanism</span>
+        <span class="chip spurious">spurious &mdash; correlation without cause</span>
+        <span class="chip incidental">incidental &mdash; real statistic, not a root cause</span>
+      </div>
+    </section>
+
+    <section>
+      <h2>Five chapters</h2>
+
+      <div class="module-grid">
+
+        <a href="./modules/01_explore.html" class="module-card ready">
+          <div class="num">01 · THE BAIT</div>
+          <div class="title">What predicts GDP?</div>
+          <div class="desc">
+            Browse the dataset. Scatter any feature against GDP. Rank all 493 by how strongly
+            they correlate. Discover that the Scrabble score of a country&rsquo;s name can correlate
+            with GDP as strongly as the regulatory quality of its government, and that high
+            correlation is not what you thought it was.
+          </div>
+        </a>
+
+        <div class="module-card stub">
+          <div class="num">02 · THE CRASH</div>
+          <div class="title">The hockey stick of doom</div>
+          <div class="desc">
+            Fit OLS with more and more features. Train R&sup2; climbs smoothly toward 1. Test R&sup2;
+            collapses the moment you cross p=n. The catastrophe is not gradual; it is a cliff.
+          </div>
+        </div>
+
+        <div class="module-card stub">
+          <div class="num">03 · THE PATCH</div>
+          <div class="title">Regularization rescues prediction</div>
+          <div class="desc">
+            Sweep &alpha; in Ridge, Lasso, Elastic Net. Watch the test score climb out of its
+            crater. Then notice which features Lasso decided to keep &hellip;
+          </div>
+        </div>
+
+        <div class="module-card stub">
+          <div class="num">04 · THE REVEAL</div>
+          <div class="title">The model kept the wrong features</div>
+          <div class="desc">
+            Lasso&rsquo;s top-20 coefficients include country-name letter counts and
+            vowel-to-consonant ratios. Random Forest&rsquo;s top-20 do not. The &ldquo;best&rdquo;
+            linear model fell for the same spurious correlations a human would have
+            dismissed in Chapter 01.
+          </div>
+        </div>
+
+        <div class="module-card stub">
+          <div class="num">05 · THE TRUST</div>
+          <div class="title">One split lied; what does cross-validation say?</div>
+          <div class="desc">
+            Every number so far came from one random train/test split. Resample. Look at the
+            spread. The point estimate you took as &ldquo;the answer&rdquo; was one draw in a
+            distribution wider than you guessed.
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section>
+      <h2>Data source</h2>
+      <p class="muted">
+        Everything you see is computed live in your browser from
+        <code>gdp_spurious_regression_dataset.csv</code> (254 rows &times; 495 columns) and
+        <code>codebook.csv</code>, both taken directly from the
+        <a href="https://github.com/eth-bmai-fs26/coding-exercises/tree/week1/cx1_un-games">
+        <code>eth-bmai-fs26/coding-exercises</code></a> Colab notebooks. No pre-baked charts, no
+        cherry-picked numbers. Pick a feature, change the scale, and watch the story
+        rearrange.
+      </p>
+    </section>
+
+    <footer>
+      <p>
+        Sourced from
+        <a href="https://github.com/eth-bmai-fs26/coding-exercises/tree/week1/cx1_un-games">
+        cx1_un-games</a> &middot;
+        <a href="https://github.com/sml-fs26/un-regression-validation">site source</a>
+      </p>
+    </footer>
+
+  </div>
+</body>
+</html>
