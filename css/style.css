@@ -532,3 +532,94 @@ body.depth-technical details.depth-block[data-depth="technical"] {
   cursor: pointer;
 }
 .ribbon-controls button:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+
+/* ==========================================================================
+   Fixed UI toggles (theme, density). Top-left stack; depth-toggle is
+   separately styled at top-right on ch03.
+   ========================================================================== */
+.ui-toggle {
+  position: fixed;
+  left: 1rem;
+  z-index: 200;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: .35rem;
+  display: flex;
+  gap: .15rem;
+  font-family: var(--font-mono);
+  font-size: .75rem;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  align-items: center;
+}
+#theme-toggle   { top: 1rem; }
+#density-toggle { top: 3.25rem; }
+.ui-toggle button {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-muted);
+  padding: .3rem .65rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: .75rem;
+  letter-spacing: .04em;
+  transition: color .15s, border-color .15s, background .15s;
+}
+.ui-toggle button:hover { color: var(--accent-gold); }
+.ui-toggle button.active {
+  background: var(--bg);
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+}
+.ui-toggle .ui-toggle-label {
+  padding: .3rem .5rem;
+  color: var(--text-dim);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  font-size: .65rem;
+  align-self: center;
+}
+
+/* ==========================================================================
+   Light-theme palette overrides.
+   Only the surface / text tokens change; role colours stay semantic.
+   ========================================================================== */
+body.theme-light {
+  --bg:           #f8fafc;
+  --bg-card:      #ffffff;
+  --bg-elevated:  #f1f5f9;
+  --border:       #cbd5e1;
+  --text:         #0f172a;
+  --text-muted:   #475569;
+  --text-dim:     #64748b;
+}
+body.theme-light .takeaway {
+  background: linear-gradient(180deg, #fef3c7 0%, #fde68a 100%);
+}
+body.theme-light .souvenir-card {
+  background: linear-gradient(160deg, #fef3c7 0%, #fde68a 100%);
+}
+body.theme-light .module-card.ready:hover { background: #f1f5f9; }
+body.theme-light .ui-toggle { box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08); }
+/* Crash-scroll gradient is dark-theme flavour; disable in light mode so the
+   page doesn't darken beneath the light surface tokens. */
+body.theme-light.crash-scroll { background: var(--bg); }
+
+/* ==========================================================================
+   Density toggle (overview): hide descriptive prose, keep structural /
+   semantic content (titles, widgets, controls, plots, featured examples,
+   role legend, nav). Use !important so this wins over inline styles.
+   ========================================================================== */
+body.density-overview .hero .hook,
+body.density-overview .widget .help,
+body.density-overview .takeaway,
+body.density-overview .module-card .desc,
+body.density-overview footer,
+body.density-overview .muted {
+  display: none !important;
+}
+/* Keep widget controls + featured examples + plots visible. Featured example
+   tiles carry the feature names and short inline labels, which the user
+   specifically asked to keep — they're the visual, not prose decoration. */
+

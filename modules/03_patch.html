@@ -150,6 +150,13 @@
   </div>
 
   <script type="module">
+    import { installThemeToggle } from "../js/theme.js";
+    import { installDensityToggle } from "../js/density-toggle.js";
+    installThemeToggle();
+    installDensityToggle();
+  </script>
+
+  <script type="module">
     import { mount } from "../js/patch.js";
     import { installDepthToggle } from "../js/depth-toggle.js";
     (async () => {
