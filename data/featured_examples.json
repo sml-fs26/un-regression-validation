@@ -53,10 +53,10 @@
   ],
   "spurious": [
     {
-      "feature": "passport_visa_free_destinations",
-      "label": "visa-free destinations",
-      "r": 0.424,
-      "explain": "Countries with strong passports are those other countries already trust — a diplomatic echo of wealth, not a cause of it. Issuing a fancier passport would not generate a dollar of GDP."
+      "feature": "name_numerology_score",
+      "label": "numerology score of country name",
+      "r": 0.077,
+      "explain": "Add up A=1, B=2, …, Z=26 across the letters of the country's name. This is a pseudoscience from Pythagorean mysticism by way of self-help aisles — there is literally no mechanism by which it could move an economy, and the correlation, such as it is, is exactly what 333 silly questions should produce."
     },
     {
       "feature": "flag_colors_count",
